@@ -1,7 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
-using Toybox.Sensor;
+import Toybox.Sensor;
 import Toybox.Math;
 
 /*
@@ -18,13 +18,13 @@ function getHeading() {
 		heading_rad = actInfo.heading;
 	}
 			
-	var map_declination =  0.0;
-		heading_rad= heading_rad+map_declination*Math.PI/180;			
+	//var map_declination =  0.0;
+	//heading_rad= heading_rad+map_declination*Math.PI/180;			
 			
 	if( heading_rad < 0 ) {
 		heading_rad = 2*Math.PI+heading_rad;
 	}
-	return heading_rad;
+	return heading_rad * 57.29; // (180/M_PI )
 		
 }
 
@@ -185,24 +185,24 @@ class CompassView extends Ui.View {
 		dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
 		var fontHeight = dc.getFontHeight(Graphics.FONT_TINY); 
 
-		//var i = -(m_WindDirection+90)/180.0 * Math.PI;
-        var X = ((_canvas_h/2)-20) * Math.cos(heading);
-        var Y = ((_canvas_w/2)-20) * Math.sin(heading);
+		var i = -(heading+90)/180.0 * Math.PI;
+        var X = ((_canvas_h/2)-20) * Math.cos(i);
+        var Y = ((_canvas_w/2)-20) * Math.sin(i);
     	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "N", Graphics.TEXT_JUSTIFY_CENTER);
  		
-		//i = -(m_WindDirection)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(heading);
-        Y = ((_canvas_w/2)-20) * Math.sin(heading);
+		i = -(heading)/180.0 * Math.PI;
+        X = ((_canvas_h/2)-20) * Math.cos(i);
+        Y = ((_canvas_w/2)-20) * Math.sin(i);
     	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "E", Graphics.TEXT_JUSTIFY_CENTER);
 
-		//i = -(m_WindDirection-90)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(heading);
-        Y = ((_canvas_w/2)-20) * Math.sin(heading);
+		i = -(heading-90)/180.0 * Math.PI;
+        X = ((_canvas_h/2)-20) * Math.cos(i);
+        Y = ((_canvas_w/2)-20) * Math.sin(i);
     	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "S", Graphics.TEXT_JUSTIFY_CENTER);
 
-		//i = -(m_WindDirection+180)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(heading);
-        Y = ((_canvas_w/2)-20) * Math.sin(heading);
+		i = -(heading+180)/180.0 * Math.PI;
+        X = ((_canvas_h/2)-20) * Math.cos(i);
+        Y = ((_canvas_w/2)-20) * Math.sin(i);
     	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "W", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
