@@ -44,6 +44,8 @@ class BoatInfo
 	//
 	var GpsLocation = null;
 
+    // elapsed time
+    var ElapsedTime = 0;
 }
 
 /*
@@ -244,7 +246,7 @@ class boatModel {
         _avgCosValues[_avgBearingIterator] = cosBearing;
         _avgBearingDegree = (Math.toDegrees(Math.atan2(_sinBearingSum, _cosBearingSum)) + 360).toNumber() % 360;
         _avgBearingIterator = (_avgBearingIterator + 1) % AVG_BEARING_INTERVAL;
-        
+
         _location = positionInfo.position;
     }
 
@@ -262,8 +264,19 @@ class boatModel {
         gpsInfo.IsRecording = mSession.isRecording();
         
         gpsInfo.AvgBearingDegree = _avgBearingDegree;
+
+        var activity = Activity.getActivityInfo();
+        var distance = activity.elapsedDistance;
+        if (distance == null) { distance = 0; }
+
         gpsInfo.TotalDistance = _distance / METERS_PER_NAUTICAL_MILE;
         gpsInfo.GpsLocation = _location; 
+
+        var timer = activity.elapsedTime;
+        if (timer == null) { timer = 0; }
+        timer = timer / 1000;
+        timer = timer / 60;
+        gpsInfo.ElapsedTime = timer;
 
         return gpsInfo;
     }
