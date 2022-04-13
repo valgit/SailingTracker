@@ -1,0 +1,7 @@
+<strings>    
+    <string id="mmenuRacetimer">Race Timer</string>
+    <string id="mmenuCruise">Cruise</string>
+    <string id="mmenuWind">Wind</string>    
+    <string id="mmenuExitDiscard">Exit Discard Track</string>
+    <string id="mmenuExitSave">Exit Save Track</string>
+</strings>
