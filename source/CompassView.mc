@@ -86,9 +86,16 @@ class CompassView extends Ui.View {
 	    dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
         dc.clear();  
 
+		// time
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        var clockTime = System.getClockTime();
+        var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+        dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
+
 		heading_rad = getHeading();
-		           							
-		drawLogoOrientation(dc, center_x, center_y, size_max, heading_rad);
+
+		// heading arrow        							
+		//drawLogoOrientation(dc, center_x, center_y, size_max, heading_rad);
 						
 		var display_text_orientation = App.getApp().getProperty("display_text_orientation");
 			
@@ -189,5 +196,17 @@ class CompassView extends Ui.View {
 		return [Math.ceil(x), Math.ceil(y)];
 	}
      
-   	
+	/*
+	 * battery status
+	 */
+   	function drawbattery(dc) {
+		// battery info ?
+        var battery = System.getSystemStats().battery;
+        if (battery <= 30) {
+            if (battery <= 10) {
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+            }
+            dc.drawText(width * 0.30 ,(height * 0.05), Graphics.FONT_MEDIUM, "B", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+	   }
 }
