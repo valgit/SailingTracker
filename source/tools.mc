@@ -1,7 +1,8 @@
 /*
  * some common and usefull functions
  */
-using Toybox.Application as App;
+import Toybox.Application;
+import Toybox.Math;
 
 // ms to [[hh:]m]m:ss
 function SecToString(timeInSec)
@@ -38,7 +39,7 @@ function toHMS(secs) {
     return [hr, min,sec];
 }
 
-function headingToStr(heading){
+function headingToStrRad(heading){
     var sixteenthPI = Math.PI / 16.0;
     if (heading < sixteenthPI and heading >= 0){
         return "N";
@@ -77,6 +78,58 @@ function headingToStr(heading){
     }
 }    
 
+function headingToStrDeg(heading){
+    var sixteenthPI = 180.0 / 16.0;
+    if (heading < sixteenthPI and heading >= 0){
+        return "N";
+    }else if (heading < (3 * sixteenthPI)){ 
+        return "NNE";
+    }else if (heading < (5 * sixteenthPI)){ 
+        return "NE";
+    }else if (heading < (7 * sixteenthPI)){ 
+        return "ENE";
+    }else if (heading < (9 * sixteenthPI)){ 
+        return "E";
+    }else if (heading < (11 * sixteenthPI)){ 
+        return "ESE";
+    }else if (heading < (13 * sixteenthPI)){ 
+        return "SE";
+    }else if (heading < (15 * sixteenthPI)){ 
+        return "SSE";
+    }else if (heading < (17 * sixteenthPI)){ 
+        return "S";
+    }else if ((heading < 0 and heading > (15 * sixteenthPI) * -1)){ 
+        return "SSW";
+    }else if ((heading < 0 and heading > (14 * sixteenthPI) * -1)){ 
+        return "SW";
+    }else if ((heading < 0 and heading > (13 * sixteenthPI) * -1)){ 
+        return "WSW";
+    }else if ((heading < 0 and heading > (9 * sixteenthPI) * -1)){ 
+        return "W";
+    }else if ((heading < 0 and heading > (7 * sixteenthPI) * -1)){ 
+        return "WNW";
+    }else if ((heading < 0 and heading > (5 * sixteenthPI) * -1)){ 
+        return "NW";
+    }else if ((heading < 0 and heading > (3 * sixteenthPI) * -1)){ 
+        return "NNW";
+    }else {
+        return "-";
+    }
+}    
+
+// heading is in Degree...
+function formatHeading(heading) {          
+        var headingStr = headingToStrDeg(heading);
+        /*
+        var headingDeg = ((180 * heading ) /  Math.PI);
+        if (headingDeg < 0) {
+            headingDeg += 360;
+        }
+        */
+        headingStr += " - " + heading.format("%d");
+        return headingStr;
+}
+
 // Return min of two values
 function min(a, b) {
         if(a < b) {
@@ -101,7 +154,7 @@ function max(a, b) {
 // @param name the name of the preference
 // @param def the default value if preference value cannot be found
 function getBoolean(name, def) {
-    var app = App.getApp();
+    var app = getApp();
     var pref = def;
 
     if (app != null) {
@@ -129,7 +182,7 @@ function getBoolean(name, def) {
 //! @param min the minimum authorized value for the preference
 //! @param max the maximum authorized value for the preference
 function getNumber(name, def, min, max) {
-    var app = App.getApp();
+    var app = getApp();
     var pref = def;
 
     if (app != null) {

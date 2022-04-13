@@ -4,6 +4,48 @@ import Toybox.Attention;
 import Toybox.FitContributor;
 import Toybox.ActivityRecording;
 
+// class to pass actual boat/gps data
+//
+class BoatInfo
+{
+	// GPS signal accuracy
+	//
+	var Accuracy = 0;
+
+	// actual speed in Knots
+	//
+	var SpeedKnot = 0.0;
+
+	// max speed in knots
+	//
+	var MaxSpeedKnot = 0.0;
+
+	// avg speed in knots for 10 sec.
+	//
+	var AvgSpeedKnot = 0.0;
+
+	// Bearing in degree 0-360
+	//
+	var BearingDegree = 0;
+
+	// is activity recorded
+	//
+	var IsRecording = false;
+
+	// sliding avg bearing for 20 sec.
+	//
+	var AvgBearingDegree = 0;
+	
+	// Total distance covered
+	//
+	var TotalDistance = 0.0;
+	
+	// Actual location
+	//
+	var GpsLocation = null;
+
+}
+
 /*
  * central point for GPS data and boat data
  */
@@ -206,4 +248,23 @@ class boatModel {
         _location = positionInfo.position;
     }
 
+
+    	// return all calculated data from GPS 
+	//
+    function GetBoatInfo()
+    {
+        var gpsInfo = new BoatInfo();
+        gpsInfo.Accuracy = _accuracy;
+        gpsInfo.SpeedKnot = _speedKnot;
+        gpsInfo.BearingDegree = _bearingDegree;
+        gpsInfo.AvgSpeedKnot = _avgSpeedSum / AVG_SPEED_INTERVAL;
+        gpsInfo.MaxSpeedKnot = _maxSpeedKnot;
+        gpsInfo.IsRecording = mSession.isRecording();
+        
+        gpsInfo.AvgBearingDegree = _avgBearingDegree;
+        gpsInfo.TotalDistance = _distance / METERS_PER_NAUTICAL_MILE;
+        gpsInfo.GpsLocation = _location; 
+
+        return gpsInfo;
+    }
 }

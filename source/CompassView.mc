@@ -42,13 +42,13 @@ class CompassView extends Ui.View {
 	hidden var center_y;
 	hidden var size_max;
 	
-	var mModel;
+	var mBoatmodel;
     var mController;
 
  	var _canvas_w;
     var _canvas_h;
 
-	function initialize() {
+	function initialize(boat) {
 		View.initialize();
 
 		// Load UI resources	
@@ -58,7 +58,7 @@ class CompassView extends Ui.View {
 		westStr = Ui.loadResource(Rez.Strings.west);		
         
         // Get the model and controller from the Application
-        //mModel = Application.getApp().model;
+        mBoatmodel = boat;
         //mController = Application.getApp().controller;
 	}
         

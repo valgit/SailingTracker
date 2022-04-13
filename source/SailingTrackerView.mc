@@ -1,29 +1,20 @@
 import Toybox.Graphics;
 import Toybox.WatchUi;
 
-// TODO  : add a model
-// global ?
-// bad design !!!
-var _maxspeed;
-var mSessMaxSpeedField;
-
 class SailingTrackerView extends CompassView {    
-    var mps_to_kts = 1.943844492;
-    var m_to_nm = 0.000539957;
-    var update_timer = null;
-    var headingStr;    
-    var _speed;
+    //var mps_to_kts = 1.943844492;
+    //var m_to_nm = 0.000539957;
+    //var update_timer = null;
+    //var headingStr;    
+    //var _speed;
 
-    function initialize() {
-        CompassView.initialize();
+    function initialize(boat) {
+        CompassView.initialize(boat);
 
         System.println("TrackingView - init");
         // Get the model and controller from the Application
         //mModel = Application.getApp().model;
         //mController = Application.getApp().controller;
-
-		_maxspeed = 0;
-        _speed = 0;
     }
 
     // Load your resources here
@@ -60,7 +51,11 @@ class SailingTrackerView extends CompassView {
     }
 
 	 function drawSailInfo(dc) {     
-        var activity = Activity.getActivityInfo();
+        //var activity = Activity.getActivityInfo();
+
+        // Display speed and bearing if GPS available
+        //
+        var _info = mBoatmodel.GetBoatInfo();
 
         //TODO: draw a record icon
         //System.println("isRecording");
@@ -75,7 +70,7 @@ class SailingTrackerView extends CompassView {
         maxSpeed = maxSpeed * mps_to_kts;
         maxSpeed = maxSpeed.format("%02.1f");
         */
-        var maxSpeed = _maxspeed.format("%02.1f");
+        var maxSpeed = _info.MaxSpeedKnot.format("%02.1f");
         dc.drawText(_canvas_w * 0.88 ,(_canvas_h * 0.43), Graphics.FONT_XTINY, maxSpeed, Graphics.TEXT_JUSTIFY_RIGHT);
 
         // Activity.Info currentSpeed in m/s
@@ -85,25 +80,27 @@ class SailingTrackerView extends CompassView {
         if (speed == null) { speed = 0; }
         var knots = (_speed * mps_to_kts).format("%02.1f");
         */
-        var knots = _speed.format("%02.1f");
+        var knots = _info.SpeedKnot.format("%02.1f");
         dc.drawText(_canvas_w * 0.70 ,(_canvas_h * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(_canvas_w * 0.90 ,(_canvas_h * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
 
-
+        var headingStr = formatHeading(_info.BearingDegree);
         System.println("cur speed : " + getCurrentSpeed() + " Gspeed "+ knots +" heading : "+headingStr );
         
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var distance = activity.elapsedDistance;
+        var distance = _info.TotalDistance;
         if (distance == null) { distance = 0; }
-        distance = distance * m_to_nm;
+        //distance = distance * m_to_nm;
         distance = distance.format("%02.2f");
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.73), Graphics.FONT_XTINY, " nm", Graphics.TEXT_JUSTIFY_LEFT);
 
         dc.drawText(_canvas_w * 0.50, (_canvas_h * 0.20), Graphics.FONT_MEDIUM, headingStr, Graphics.TEXT_JUSTIFY_CENTER);
 
+        //TODO: 
         // Activity.Info elapsedTime in ms
+        /*
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var timer = activity.elapsedTime;
         if (timer == null) { timer = 0; }
@@ -114,6 +111,7 @@ class SailingTrackerView extends CompassView {
         timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
+        */
     }	
 
 }
