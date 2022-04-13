@@ -126,6 +126,30 @@ class boatModel {
 		   }
     }
 
+
+    // Start & Pause activity recording
+    //
+    function StartStopRecording()
+    {
+        /*
+        if (_accuracy < 2 && !_activeSession.isRecording())
+        {
+            return false;
+        }
+        */
+        if (mSession.isRecording())
+        {
+            mSession.stop();
+            //saveLap();
+        }
+        else
+        {
+            mSession.start();
+            //_startTime = (_startTime == null) ? Time.now() : _startTime;
+        }
+        return true;
+    }
+
     // Begin sensor processing
     function start() {
     	//System.println("model - start");        	

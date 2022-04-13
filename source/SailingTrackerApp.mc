@@ -50,7 +50,7 @@ class SailingTrackerApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new SailingTrackerView(mBoatmodel), new SailingTrackerDelegate() ] as Array<Views or InputDelegates>;
+        return [ new SailingTrackerView(mBoatmodel), new SailingTrackerDelegate(mBoatmodel) ] as Array<Views or InputDelegates>;
     }
 
      // handle position event
