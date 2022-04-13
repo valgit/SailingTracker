@@ -1,7 +1,7 @@
 import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
-import Toybox.Position as Position;
+using Toybox.Position as Position;
 
 class SailingTrackerApp extends Application.AppBase {
 

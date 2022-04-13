@@ -1,8 +1,11 @@
 <strings>
     <string id="AppName">SailingTracker</string>
 
-    <string id="prompt">Click the menu button</string>
+    <string id="north">N</string>
+    <string id="east">E</string>
+    <string id="south">S</string>
+    <string id="west">W</string>
 
-    <string id="menu_label_1">Item 1</string>
-    <string id="menu_label_2">Item 2</string>
+    <string id="sail_maxspeed">Max Speed</string>  
+    <string id="sail_knots">Knots</string>  
 </strings>
