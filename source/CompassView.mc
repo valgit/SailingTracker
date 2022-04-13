@@ -41,11 +41,9 @@ class CompassView extends Ui.View {
     hidden var center_x;
 	hidden var center_y;
 	hidden var size_max;
-	hidden var update;
-	hidden var timer;
 	
-	hidden var mModel;
-    hidden var mController;
+	var mModel;
+    var mController;
 
  	var _canvas_w;
     var _canvas_h;

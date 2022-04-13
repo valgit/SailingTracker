@@ -1,0 +1,209 @@
+import Toybox.Activity;
+import Toybox.System;
+import Toybox.Attention;
+import Toybox.FitContributor;
+import Toybox.ActivityRecording;
+
+/*
+ * central point for GPS data and boat data
+ */
+class boatModel {
+    // avg for 10 sec. values (speed)
+    //
+	hidden var _avgSpeedIterator = 0;
+	hidden var _avgSpeedSum = 0;
+	hidden var _avgSpeedValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	
+	// max for3 sec. values (speed)
+    //
+	hidden var _maxSpeedIterator = 0;
+	hidden var _maxSpeedSum = 0;
+	hidden var _maxSpeedValues = [0, 0, 0];
+
+    // avg for 10 sec. values (bearing)
+    //
+    hidden var _avgSinValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    hidden var _avgCosValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    hidden var _sinBearingSum = 0;
+    hidden var _cosBearingSum = 0;
+    hidden var _avgBearingDegree = 0;
+    hidden var _avgBearingIterator = 0;
+
+    // actual gps values
+    //
+	hidden var _speedKnot = 0.0;
+    hidden var _accuracy = 0;
+    hidden var _bearingDegree = 0;
+    hidden var _location = null;
+
+    // global values
+    //
+    hidden var _startTime;
+    hidden var _distance = 0;
+    hidden var _duration = 0;
+    hidden var _maxSpeedKnot = 0;
+    
+    const MAX_SPEED_INTERVAL = 3;
+    const AVG_SPEED_INTERVAL = 10;
+    const AVG_BEARING_INTERVAL = 10;
+    const METERS_PER_NAUTICAL_MILE = 1852;
+    const MS_TO_KNOT = 1.9438444924574;
+
+    // Primary stats
+    hidden var mHeartRate; 
+  
+    // FIT recording session
+    hidden var mSession;
+
+      // Initialize sensor readings
+    function initialize() {    
+    	//System.println("model init"); 
+        // check for support !
+		if( Toybox has :ActivityRecording ) {				
+		        // Create a new FIT recording session
+		        if ((mSession == null) || (mSession.isRecording() == false)) {
+		        	mSession = ActivityRecording.createSession(
+		        	 	{
+		        	 		// :name=>"diving_"+Time.now().value(), // set session name
+		  				   :name=>"SailingCruise", // +Time.now().value(),      // set session name
+		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
+		  				   :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
+		  				   //:sensorLogger => mLogger // add accel logger
+		    			}
+		    
+		        	);
+		        }		        	
+		    	//initializeFITRecord();
+		    	
+		    	//initializeFITsession();
+		    
+                //initializeFITLap();
+
+		   }
+    }
+
+    // Begin sensor processing
+    function start() {
+    	//System.println("model - start");        	
+    	
+        // Start recording
+        mSession.start();
+
+    }
+
+    // Stop sensor processing
+    function stop() {        
+        // Stop the FIT recording
+        if ((mSession != null) && mSession.isRecording()) {              
+        	mSession.stop();
+        }
+    }
+
+    // Save the current session
+    function save() {
+        /*
+    	if (mSession != null) {
+    	    // https://forums.garmin.com/forum/developers/connect-iq/connect-iq-bug-reports/1452620-monkey-graph-doesn-t-display-session-data            
+                        
+            var mBoatType = Application.getApp().getProperty("boat");
+            if (mBoatType != null) {
+                //System.println("boat type : " + mBoatType);
+                mSessBoatTypeStrField.setData(mBoatType);
+            } else {
+                mSessBoatTypeStrField.setData("all");
+            }
+
+            var mWindSpd = Application.getApp().getProperty("wind");
+            if (mWindSpd != null) {
+                //System.println("boat type : " + mBoatType);
+                mSessWindPerLegField.setData(mWindSpd);
+            } else {
+                mSessWindPerLegField.setData(0);
+            }
+  
+            }
+        */                           
+	        mSession.save();
+	       
+	        mSession = null;
+    }      
+    
+
+    // Discard the current session
+    function discard() {
+    	if (mSession != null) {        
+	        mSession.discard();
+	        mSession = null;
+        }
+    }
+
+  // Return the total elapsed recording time
+    function getTimeElapsed() {
+        //return mSeconds;
+        
+        var _elapsed = 0;
+        var activity = Activity.getActivityInfo();
+        if (activity != null) {         
+            _elapsed = activity.timerTime; //elapsedTime;
+            if (_elapsed == null) { _elapsed = 0; }         
+        } else {
+            	_elapsed = 0;
+        } 
+        //System.println("elaps : "+ _elapsed);
+        _elapsed = _elapsed / 1000; // in ms
+        return _elapsed;
+        
+    }
+
+    // Return the total elapsed recording time
+	function getTotalTime() {
+		return elapsedTime;
+	}	
+	
+    /*
+    function getRaceTime() {        
+        var now = System.getTimer(); //Time.now();
+        var raceTime = now - _legStart; //.subtract(_legStart);
+        var raceTimeStr = secToTimeStr(raceTime/1000); // secToStr(raceTime);// .value());
+        //System.println(raceTimeStr);
+        return raceTimeStr;
+    }
+    */
+
+	function toFixed(value, scale) {
+        return ((value * scale) + 0.5).toNumber();
+    }
+
+    function SetPositionInfo(positionInfo) {
+        _speedKnot = positionInfo.speed.toDouble() * MS_TO_KNOT;
+        _bearingDegree = (Math.toDegrees(positionInfo.heading) + 360).toNumber() % 360;
+
+		// moving max speed : in order to avoid fluctuation, max speed take as avg from 3 values
+		//
+		_maxSpeedSum = _maxSpeedSum - _maxSpeedValues[_maxSpeedIterator] + _speedKnot;
+        _maxSpeedValues[_maxSpeedIterator] = _speedKnot;
+        _maxSpeedIterator = (_maxSpeedIterator + 1) % MAX_SPEED_INTERVAL;
+        var maxSpeed = _maxSpeedSum / MAX_SPEED_INTERVAL;
+        _maxSpeedKnot = (_maxSpeedKnot < maxSpeed) ? maxSpeed : _maxSpeedKnot;		
+        
+        // moving avg speed 
+        //
+        _avgSpeedSum = _avgSpeedSum - _avgSpeedValues[_avgSpeedIterator] + _speedKnot;
+        _avgSpeedValues[_avgSpeedIterator] = _speedKnot;
+        _avgSpeedIterator = (_avgSpeedIterator + 1) % AVG_SPEED_INTERVAL;
+
+        // moving avg bearing
+        //
+        var sinBearing = Math.sin(positionInfo.heading);
+        var cosBearing = Math.cos(positionInfo.heading);
+        _sinBearingSum = _sinBearingSum - _avgSinValues[_avgBearingIterator] + sinBearing;
+        _avgSinValues[_avgBearingIterator] = sinBearing;
+        _cosBearingSum = _cosBearingSum - _avgCosValues[_avgBearingIterator] + cosBearing;
+        _avgCosValues[_avgBearingIterator] = cosBearing;
+        _avgBearingDegree = (Math.toDegrees(Math.atan2(_sinBearingSum, _cosBearingSum)) + 360).toNumber() % 360;
+        _avgBearingIterator = (_avgBearingIterator + 1) % AVG_BEARING_INTERVAL;
+        
+        _location = positionInfo.position;
+    }
+
+}

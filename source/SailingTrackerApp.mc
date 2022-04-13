@@ -7,9 +7,11 @@ using Toybox.Timer;
 class SailingTrackerApp extends Application.AppBase {
     var mSupportsRecording;
     var mTimer;
+    var mBoatmodel;
 
     function initialize() {
         AppBase.initialize();
+        mBoatmodel = new boatModel();
     }
 
     // onStart() is called on application start up
@@ -54,8 +56,8 @@ class SailingTrackerApp extends Application.AppBase {
      // handle position event
     //
     function onPosition(info) 
-    {
-        //_gpsWrapper.SetPositionInfo(info);
+    {        
+        mBoatmodel.SetPositionInfo(info);
     }
 
     function timerCallback() {    
