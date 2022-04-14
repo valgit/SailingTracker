@@ -10,7 +10,8 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() as Boolean {
-        WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(), WatchUi.SLIDE_UP);
+
+        WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_UP);
         return true;
     }
 
@@ -36,18 +37,23 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
 	// Key pressed
     function onKey(key) {
     	//System.println("onKey : " + key);
-    	/* maybe better ?
-       	if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
-            return onSelect();
+    	
+       	//if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
+        if (key.getKey() == WatchUi.KEY_ENTER) {
+            // Pass the input to the controller
+        	mBoatmodel.StartStopRecording();
+            //return onSelect();
+            return true; // we handle it !
         }
-        */
+        /*
         if (key.getKey() == WatchUi.KEY_ENTER) {            
             System.println("Key pressed: ENTER");            
             // Pass the input to the controller
         	mBoatmodel.StartStopRecording();
         	//WatchUi.pushView(new Rez.Menus.MainMenu(), new sailingMenuDelegate(), WatchUi.SLIDE_UP);
             return true;
-        }
+        }*/
+
         // KEY_LAP KEY_START
         //System.println("Key pressed: " + key.getKey() );
         // next = 8

@@ -87,3 +87,5 @@ properties.mk
 # sublime
 *.sublime-workspace
 
+source/CompassView.mc.orig
+source/CompassView.mc.lines

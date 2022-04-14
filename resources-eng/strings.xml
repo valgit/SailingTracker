@@ -3,7 +3,7 @@
     <string id="mmenuCruise">Cruise</string>
     <string id="mmenuWind">Wind</string>    
     <string id="mmenuExitDiscard">Exit Discard Track</string>
-    <string id="mmenuExitSave">Exit Save Track</string>
+    <string id="mmenuExitSave">Save Track</string>
 
     <string id="sail_maxspeed">Max Speed</string>  
     <string id="sail_knots">Knots</string>  

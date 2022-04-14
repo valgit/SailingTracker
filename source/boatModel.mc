@@ -188,8 +188,9 @@ class boatModel {
 
     // Save the current session
     function save() {
-        /*
+        
     	if (mSession != null) {
+            /*
     	    // https://forums.garmin.com/forum/developers/connect-iq/connect-iq-bug-reports/1452620-monkey-graph-doesn-t-display-session-data            
                         
             var mBoatType = Application.getApp().getProperty("boat");
@@ -208,11 +209,11 @@ class boatModel {
                 mSessWindPerLegField.setData(0);
             }
   
-            }
+            
         */       
             mSessMaxSpeedField.setData(_maxSpeedKnot);                   
 	        mSession.save();
-	       
+            }
 	        mSession = null;
     }      
     

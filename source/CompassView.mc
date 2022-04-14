@@ -1,7 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
-import Toybox.Sensor;
+using Toybox.Sensor;
 import Toybox.Math;
 
 /*
@@ -18,13 +18,13 @@ function getHeading() {
 		heading_rad = actInfo.heading;
 	}
 			
-	//var map_declination =  0.0;
-	//heading_rad= heading_rad+map_declination*Math.PI/180;			
+	var map_declination =  0.0;
+		heading_rad= heading_rad+map_declination*Math.PI/180;			
 			
 	if( heading_rad < 0 ) {
 		heading_rad = 2*Math.PI+heading_rad;
 	}
-	return heading_rad * 57.29; // (180/M_PI )
+	return heading_rad;
 		
 }
 
@@ -47,7 +47,6 @@ class CompassView extends Ui.View {
 
  	var _canvas_w;
     var _canvas_h;
-	var _screenShape;
 
 	function initialize(boat) {
 		View.initialize();
@@ -61,7 +60,6 @@ class CompassView extends Ui.View {
         // Get the model and controller from the Application
         mBoatmodel = boat;
         //mController = Application.getApp().controller;
-		_screenShape = System.getDeviceSettings().screenShape;
 	}
         
     function onShow() as Void {
@@ -98,7 +96,7 @@ class CompassView extends Ui.View {
 
 		// heading arrow        							
 		//drawLogoOrientation(dc, center_x, center_y, size_max, heading_rad);
-		/*				
+						
 		var display_text_orientation = App.getApp().getProperty("display_text_orientation");
 			
 		if( display_text_orientation ){
@@ -106,24 +104,103 @@ class CompassView extends Ui.View {
 			var size = size_max;
 
 			drawTextOrientation(dc, center_x, y, size, heading_rad);
-		}*/
+		}
 						
-		//drawCompass(dc, center_x, center_y, size_max);
-		drawHashMarks(dc);
+		drawCompass(dc, center_x, center_y, size_max);
 
-		// Draw North arrow
-        drawNorth(dc,heading_rad);
-
-        drawHeading(dc,heading_rad);
-
-        // Draw a record icon
+        drawHeading(dc);
+        
         var recordingStatus = _info.IsRecording;
-        //System.println("isRecording : " + recordingStatus);
-        dc.setColor(recordingStatus ? Gfx.COLOR_GREEN : Gfx.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-		dc.fillCircle(_canvas_w * 0.7 ,(_canvas_h * 0.10),  5);
+        drawRecord(dc,recordingStatus);
 	}
     
+	function drawTextOrientation(dc, center_x, center_y, size, orientation){
+		var color = Graphics.COLOR_LT_GRAY;
+		var fontOrientaion;
+		var fontMetric = Graphics.FONT_TINY;
 
+       	if( orientation < 0 ) {
+				orientation = 2*Math.PI+orientation;
+		}
+		var orientationStr=Lang.format("$1$", [(orientation*180/Math.PI).format("%d")]);
+		
+		fontOrientaion = Graphics.FONT_NUMBER_THAI_HOT ;
+		
+		dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(center_x, center_y, fontOrientaion, orientationStr, Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+		
+		var text_width = dc.getTextWidthInPixels(orientationStr, fontOrientaion);
+		var text_height =dc.getFontHeight(fontOrientaion);
+		dc.drawText(center_x+text_width/2+2, center_y-text_height/4+2, fontMetric, "o", Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+		
+	}
+	   
+	function drawCompass(dc, center_x, center_y, size) {
+		var colorText = Graphics.COLOR_WHITE;
+		var colorTextNorth = Graphics.COLOR_WHITE;
+		var colorCompass = Graphics.COLOR_RED;
+		var radius = size/2-12;
+		var font=Graphics.FONT_MEDIUM;
+		var penWidth = 4; // was 8
+		var step = 12;
+
+		dc.setColor(colorTextNorth, Graphics.COLOR_TRANSPARENT);
+		drawTextPolar(dc, center_x, center_y, heading_rad, radius, font, northStr);
+             
+		dc.setColor(colorText, Graphics.COLOR_TRANSPARENT);
+		drawTextPolar(dc, center_x, center_y, heading_rad + 3*Math.PI/2, radius, font, eastStr);
+        
+		dc.setColor(colorText, Graphics.COLOR_TRANSPARENT);
+		drawTextPolar(dc, center_x, center_y, heading_rad+ Math.PI, radius, font, southStr);
+
+		dc.setColor(colorText, Graphics.COLOR_TRANSPARENT);
+		drawTextPolar(dc, center_x, center_y, heading_rad+ Math.PI / 2, radius, font, westStr);
+        
+		var startAngle = heading_rad*180/Math.PI - step;
+		var endAngle = heading_rad*180/Math.PI + 90+ step;
+       	dc.setColor(colorCompass, Graphics.COLOR_TRANSPARENT);
+		dc.setPenWidth(penWidth);
+		for( var i = 0; i < 4; i++ ) {
+			dc.drawArc(center_x, center_y, radius, Gfx.ARC_CLOCKWISE, 90+startAngle-i*90, (360-90+endAngle.toLong()-i*90)%360 );
+		}
+		
+		dc.setPenWidth(penWidth/4);
+		for( var i = 0; i < 12; i++) {
+			if( i % 3 != 0 ) {
+				var xy1 = pol2Cart(center_x, center_y, heading_rad+i*Math.PI/6, radius);
+				var xy2 = pol2Cart(center_x, center_y, heading_rad+i*Math.PI/6, radius-radius/10);
+				dc.drawLine(xy1[0],xy1[1],xy2[0],xy2[1]);
+			}
+		}      
+	}
+    
+	function drawLogoOrientation(dc, center_x, center_y, size, orientation){
+		var color = Graphics.COLOR_WHITE;
+		var radius=size/3.10;
+		
+		dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+	
+		var xy1 = pol2Cart(center_x, center_y, orientation, radius);
+		var xy2 = pol2Cart(center_x, center_y, orientation+135*Math.PI/180, radius);
+		var xy3 = pol2Cart(center_x, center_y, orientation+171*Math.PI/180, radius/2.5);
+		var xy4 = pol2Cart(center_x, center_y, orientation, radius/3);
+		var xy5 = pol2Cart(center_x, center_y, orientation+189*Math.PI/180, radius/2.5);
+		var xy6 = pol2Cart(center_x, center_y, orientation+225*Math.PI/180, radius);
+		dc.fillPolygon([xy1, xy2, xy3, xy4, xy5, xy6]);
+	}
+    
+	function drawTextPolar(dc, center_x, center_y, radian, radius, font, text) {
+		var xy = pol2Cart(center_x, center_y, radian, radius);
+		dc.drawText(xy[0], xy[1], font, text, Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+	}
+    
+	function pol2Cart(center_x, center_y, radian, radius) {
+		var x = center_x - radius * Math.sin(radian);
+		var y = center_y - radius * Math.cos(radian);
+		 
+		return [Math.ceil(x), Math.ceil(y)];
+	}
+     
 	/*
 	 * battery status
 	 */
@@ -138,102 +215,25 @@ class CompassView extends Ui.View {
         }
 	   }
 
-	  // Draws the clock tick marks around the outside edges of the screen.
-	// ==========================================================================
-    function drawHashMarks(dc) {
-		dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
-		dc.setPenWidth(2);
-
-        // Draw hashmarks differently depending on screen geometry.
-        if (System.SCREEN_SHAPE_ROUND == _screenShape) {
-            var sX, sY;
-            var eX, eY;
-            var outerRad = _canvas_w / 2;
-            var innerRad = outerRad - 9;
-            
-            // draw 10-deg tick marks.
-            for (var i = 0; i < 2 * Math.PI ; i += (Math.PI / 18)) {
-                sY = outerRad + innerRad * Math.sin(i);
-                eY = outerRad + outerRad * Math.sin(i);
-                sX = outerRad + innerRad * Math.cos(i);
-                eX = outerRad + outerRad * Math.cos(i);
-                dc.drawLine(sX, sY, eX, eY);
-            }
-
-            // draw 10-deg tick marks.
-            innerRad = outerRad - 5;
-            for (var i = 0; i < 2 * Math.PI ; i += (Math.PI / 90)) {
-                sY = outerRad + innerRad * Math.sin(i);
-                eY = outerRad + outerRad * Math.sin(i);
-                sX = outerRad + innerRad * Math.cos(i);
-                eX = outerRad + outerRad * Math.cos(i);
-                dc.drawLine(sX, sY, eX, eY);
-            }
-            
-        } else {
-            var coords = [0, _canvas_w / 4, (3 * _canvas_w) / 4, _canvas_w];
-            for (var i = 0; i < coords.size(); i += 1) {
-                var dx = ((_canvas_w / 2.0) - coords[i]) / (_canvas_h / 2.0);
-                var upperX = coords[i] + (dx * 10);
-                // Draw the upper hash marks.
-                dc.fillPolygon([[coords[i] - 1, 2], [upperX - 1, 12], [upperX + 1, 12], [coords[i] + 1, 2]]);
-                // Draw the lower hash marks.
-                dc.fillPolygon([[coords[i] - 1, _canvas_h-2], [upperX - 1, _canvas_h - 12], [upperX + 1, _canvas_h - 12], [coords[i] + 1, _canvas_h - 2]]);
-            }
-        }
+    // Draw a record icon
+    function drawRecord(dc,recordingStatus) {                       
+        //System.println("isRecording : " + recordingStatus);
+        dc.setColor(recordingStatus ? Gfx.COLOR_GREEN : Gfx.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+		dc.fillCircle(_canvas_w * 0.7 ,(_canvas_h * 0.10),  5);
     }
 
-	//=====================
-    // Draws North 
-    //=====================
-    function drawNorth(dc,heading) {
-		/*
-    	if (m_bDrawNWSE==false){
-    		return;
-    	}*/
-    	
-		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
-		var fontHeight = dc.getFontHeight(Graphics.FONT_TINY); 
-
-		var i = -(heading+90)/180.0 * Math.PI;
-        var X = ((_canvas_h/2)-20) * Math.cos(i);
-        var Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, northStr, Graphics.TEXT_JUSTIFY_CENTER);
- 		
-        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
-		i = -(heading)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(i);
-        Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, eastStr, Graphics.TEXT_JUSTIFY_CENTER);
-
-		i = -(heading-90)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(i);
-        Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, southStr, Graphics.TEXT_JUSTIFY_CENTER);
-
-		i = -(heading+180)/180.0 * Math.PI;
-        X = ((_canvas_h/2)-20) * Math.cos(i);
-        Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, westStr, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-    //=====================
-    // TODO: better arrow
+   //=====================    
     // Draws Heading
     //=====================
-    function drawHeading(dc,heading) {
-		/*
-    	if (m_bDrawNWSE==false){
-    		return;
-    	}*/
+    function drawHeading(dc) {		
     	
-		dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
-		var fontHeight = dc.getFontHeight(Graphics.FONT_TINY); 
+		dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);		
 
 		var i = -(+90)/180.0 * Math.PI;
         var X = ((_canvas_h/2)) * Math.cos(i);
         var Y = ((_canvas_w/2)) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "H", Graphics.TEXT_JUSTIFY_CENTER);
+    	//dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "H", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.fillCircle(X + (_canvas_h/2) ,Y + (_canvas_w/2) ,  5);
  		
     }
 
