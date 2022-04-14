@@ -59,3 +59,16 @@ for(i=0; i < track.size(), i++) {
 	dc.fillCircle(displayX, displayY, 2);
 }
 
+Screen scrolling
+This feature is provided to assist in the wet when the touch screen doesn't work well, to provide you with access to all the screens without any touching.
+It kicks in after detecting no user input for 20 seconds.
+Screen scrolling is now off by default.
+You can change the default behaviour in Settings.
+
+
+Avoir un dark mode avec inversion des couleurs
+Avoir un mode le quiz avec juste la couche start qui fonctionne je suis un boulet in love mode qui répond juste à la touche start
+Et après le on t'appeler le start qui démarre au qui arrête le le recording
+
+Pour le will intelligence on part sur la touche start qui fixe le le bon courant peut-être le le prevnext qui a juste
+Et pourquoi pas un système qui permettent de fixer la vitesse aussi

@@ -57,7 +57,7 @@ class SailingTrackerView extends CompassView {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var knots = _info.SpeedKnot.format("%02.1f");
         dc.drawText(_canvas_w * 0.70 ,(_canvas_h * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(_canvas_w * 0.90 ,(_canvas_h * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(_canvas_w * 0.90 ,(_canvas_h * 0.57), Graphics.FONT_LARGE, "kn", Graphics.TEXT_JUSTIFY_VCENTER);
 
         var headingStr = formatHeading(_info.BearingDegree);
         //System.println("cur speed " + knots +" kts - heading : "+headingStr );
