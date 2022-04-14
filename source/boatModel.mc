@@ -87,6 +87,10 @@ class boatModel {
     hidden var _duration = 0;
     hidden var _maxSpeedKnot = 0;
     
+    // FIT Contributions variables
+    hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
+    hidden var mSessMaxSpeedField = null;
+
     const MAX_SPEED_INTERVAL = 3;
     const AVG_SPEED_INTERVAL = 10;
     const AVG_BEARING_INTERVAL = 10;
@@ -119,11 +123,26 @@ class boatModel {
 		        }		        	
 		    	//initializeFITRecord();
 		    	
-		    	//initializeFITsession();
+		    	initializeFITsession();
 		    
                 //initializeFITLap();
 
 		   }
+    }
+
+    /*
+     * FIT contributor for the whole session
+     */
+    function initializeFITsession() {
+        System.println("boatModel - initializeFITsession");
+        
+        // final values        
+        mSessMaxSpeedField = mSession.createField(WatchUi.loadResource(Rez.Strings.sail_maxspeed),
+            MAX_SPEED_FIELD_ID, 
+            FitContributor.DATA_TYPE_FLOAT, 
+            {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>WatchUi.loadResource(Rez.Strings.sail_knots	)}
+            );
+
     }
 
 
@@ -190,7 +209,8 @@ class boatModel {
             }
   
             }
-        */                           
+        */       
+            mSessMaxSpeedField.setData(_maxSpeedKnot);                   
 	        mSession.save();
 	       
 	        mSession = null;
