@@ -113,6 +113,8 @@ function headingToStrDeg(heading){
         return "NW";
     }else if (heading < (31 * sixteenthPI)){ 
         return "NNW";
+    }else if (heading < (33 * sixteenthPI)){ 
+        return "N";
     }else {
         return "-";
     }

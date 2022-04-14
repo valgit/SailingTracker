@@ -306,7 +306,11 @@ class boatModel {
         gpsInfo.BearingDegree = _bearingDegree;
         gpsInfo.AvgSpeedKnot = _avgSpeedSum / AVG_SPEED_INTERVAL;
         gpsInfo.MaxSpeedKnot = _maxSpeedKnot;
-        gpsInfo.IsRecording = mSession.isRecording();
+        if (mSession != null) {
+            gpsInfo.IsRecording = mSession.isRecording();
+        } else {
+            gpsInfo.IsRecording = false;
+        }
         
         gpsInfo.AvgBearingDegree = _avgBearingDegree;
 
