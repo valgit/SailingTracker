@@ -27,11 +27,11 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     // or click_tap touch
     // The onSelect() method should get called when you tap the screen of the vivoactive_hr. 
     // If onSelect returns false, then onTap should get called
-    //function onSelect() {
-        //System.println("onSelect");  
-        //return false; // allow InputDelegate function to be called
+    function onSelect() {
+        System.println("SailingTrackerDelegate - onSelect");  
+        return false; // allow InputDelegate function to be called
         //return true;
-    //}
+    }
 
 	// Key pressed
     function onKey(key) {

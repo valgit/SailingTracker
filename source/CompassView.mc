@@ -86,6 +86,8 @@ class CompassView extends Ui.View {
 	    dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
         dc.clear();  
 
+        var _info = mBoatmodel.GetBoatInfo();
+
 		// time
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var clockTime = System.getClockTime();
@@ -111,6 +113,14 @@ class CompassView extends Ui.View {
 
 		// Draw North arrow
         drawNorth(dc,heading_rad);
+
+        drawHeading(dc,heading_rad);
+
+        // Draw a record icon
+        var recordingStatus = _info.IsRecording;
+        //System.println("isRecording : " + recordingStatus);
+        dc.setColor(recordingStatus ? Gfx.COLOR_GREEN : Gfx.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+		dc.fillCircle(_canvas_w * 0.7 ,(_canvas_h * 0.10),  5);
 	}
     
 
@@ -182,28 +192,49 @@ class CompassView extends Ui.View {
     		return;
     	}*/
     	
-		dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
+		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
 		var fontHeight = dc.getFontHeight(Graphics.FONT_TINY); 
 
 		var i = -(heading+90)/180.0 * Math.PI;
         var X = ((_canvas_h/2)-20) * Math.cos(i);
         var Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "N", Graphics.TEXT_JUSTIFY_CENTER);
+    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, northStr, Graphics.TEXT_JUSTIFY_CENTER);
  		
+        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
 		i = -(heading)/180.0 * Math.PI;
         X = ((_canvas_h/2)-20) * Math.cos(i);
         Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "E", Graphics.TEXT_JUSTIFY_CENTER);
+    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, eastStr, Graphics.TEXT_JUSTIFY_CENTER);
 
 		i = -(heading-90)/180.0 * Math.PI;
         X = ((_canvas_h/2)-20) * Math.cos(i);
         Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "S", Graphics.TEXT_JUSTIFY_CENTER);
+    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, southStr, Graphics.TEXT_JUSTIFY_CENTER);
 
 		i = -(heading+180)/180.0 * Math.PI;
         X = ((_canvas_h/2)-20) * Math.cos(i);
         Y = ((_canvas_w/2)-20) * Math.sin(i);
-    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "W", Graphics.TEXT_JUSTIFY_CENTER);
+    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, westStr, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    //=====================
+    // TODO: better arrow
+    // Draws Heading
+    //=====================
+    function drawHeading(dc,heading) {
+		/*
+    	if (m_bDrawNWSE==false){
+    		return;
+    	}*/
+    	
+		dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+		var fontHeight = dc.getFontHeight(Graphics.FONT_TINY); 
+
+		var i = -(+90)/180.0 * Math.PI;
+        var X = ((_canvas_h/2)) * Math.cos(i);
+        var Y = ((_canvas_w/2)) * Math.sin(i);
+    	dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "H", Graphics.TEXT_JUSTIFY_CENTER);
+ 		
     }
 
 }

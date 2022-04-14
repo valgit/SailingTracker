@@ -30,7 +30,7 @@ class SailingTrackerView extends CompassView {
         // Call the parent onUpdate function to redraw the layout
         CompassView.onUpdate(dc);
 
-        System.println("TrackingView - update");
+        //System.println("TrackingView - update");
         drawSailInfo(dc);
     }
 
@@ -47,11 +47,6 @@ class SailingTrackerView extends CompassView {
         // Display speed and bearing if GPS available
         //
         var _info = mBoatmodel.GetBoatInfo();
-
-        //TODO: draw a record icon
-        //System.println("isRecording");
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-		dc.fillCircle(_canvas_w * 0.7 ,(_canvas_h * 0.10),  5);
 		
         // Activity.Info maxSpeed in m/s
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
@@ -65,7 +60,7 @@ class SailingTrackerView extends CompassView {
         dc.drawText(_canvas_w * 0.90 ,(_canvas_h * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
 
         var headingStr = formatHeading(_info.BearingDegree);
-        System.println("cur speed " + knots +" kts - heading : "+headingStr );
+        //System.println("cur speed " + knots +" kts - heading : "+headingStr );
         
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -85,7 +80,7 @@ class SailingTrackerView extends CompassView {
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
         
-        System.println("cur dist " + distance +" nm - time : "+timer );
+        //System.println("cur dist " + distance +" nm - time : "+timer );
     }	
 
 }
