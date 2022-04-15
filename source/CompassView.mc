@@ -86,12 +86,13 @@ class CompassView extends Ui.View {
 
         var _info = mBoatmodel.GetBoatInfo();
 
+		/*
 		// time
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var clockTime = System.getClockTime();
         var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
         dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
-
+		*/
 		heading_rad = getHeading();
 
 		// heading arrow        							
@@ -109,9 +110,10 @@ class CompassView extends Ui.View {
 		drawCompass(dc, center_x, center_y, size_max);
 
         drawHeading(dc);
-        
+        /*
         var recordingStatus = _info.IsRecording;
         drawRecord(dc,recordingStatus);
+		*/
 	}
     
 	function drawTextOrientation(dc, center_x, center_y, size, orientation){
