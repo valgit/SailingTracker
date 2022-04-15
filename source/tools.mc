@@ -3,6 +3,7 @@
  */
 import Toybox.Application;
 import Toybox.Math;
+import Toybox.Sensor;
 
 // ms to [[hh:]m]m:ss
 function SecToString(timeInSec)
@@ -37,6 +38,22 @@ function toHMS(secs) {
     var min = (secs-(hr*3600))/60;
     var sec = secs%60;
     return [hr, min,sec];
+}
+
+/* handle the correct heading from API */
+function getHeading() {
+	var actInfo = Sensor.getInfo();
+	var heading_rad = 0;
+
+	if (actInfo has :heading)  {
+		heading_rad = actInfo.heading;
+	}
+    		
+	if( heading_rad < 0 ) {
+		heading_rad = 2*Math.PI+heading_rad;
+	}
+	return heading_rad;
+		
 }
 
 function headingToStrRad(heading){

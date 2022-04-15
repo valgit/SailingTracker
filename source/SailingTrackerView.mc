@@ -88,6 +88,15 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         var headingStr = formatHeading(info.BearingDegree);
         //System.println("cur speed " + knots +" kts - heading : "+headingStr );
         
+        //  show VMG ?
+        //System.println("TWD is : " + info.Twd);
+        //var twd = mBoatmodel.getWind();
+        var vmg = info.SpeedKnot * Math.cos((info.Twd-info.BearingDegree)* 0.0174532 ); //  (pi /180 )
+        //System.println("vmg is : " + vmg);
+        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+        var vmgStr = vmg.format("%02.1f");
+        dc.drawText(_canvas_w * 0.12 ,(_canvas_h * 0.43), Graphics.FONT_XTINY, vmgStr, Graphics.TEXT_JUSTIFY_RIGHT);
+
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var distance = info.TotalDistance;
@@ -108,7 +117,7 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         
         //System.println("cur dist " + distance +" nm - time : "+timer );
 
-        System.println("TWD is : " + info.Twd);
+        
     }	
 
     // Draw a record icon

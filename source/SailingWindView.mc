@@ -51,6 +51,7 @@ class SailingWindView extends CompassView  {
         dc.drawText(_canvas_w/2, _canvas_h/2-fontHeight/2 + 35, Graphics.FONT_SMALL, mTwd , Graphics.TEXT_JUSTIFY_CENTER);
         */
         // Draw Set TWD in circle 
+        // TODO : add 180° for opposite ?
 		fontHeight = dc.getFontHeight(Graphics.FONT_MEDIUM); 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
 		dc.fillCircle(_canvas_w/2, _canvas_h/2, 25);
@@ -61,12 +62,8 @@ class SailingWindView extends CompassView  {
         dc.drawText(_canvas_w/2, _canvas_h/2-fontHeight/2, Graphics.FONT_SMALL, mTwd , Graphics.TEXT_JUSTIFY_CENTER);
 
         // Draw live HDG
-        var actInfo = Sensor.getInfo();	        
-
-	    if (actInfo has :heading)  {
-		        var heading_deg = actInfo.heading * 57.29; // 180 / Math.PI;
-                mTwd = formatHeading(heading_deg);
-        }        	
+        var heading_deg  = getHeading() * 57.29; // 180 / Math.PI;
+        mTwd = formatHeading(heading_deg);
 
         //System.println("wnd : " + mTwd);
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);

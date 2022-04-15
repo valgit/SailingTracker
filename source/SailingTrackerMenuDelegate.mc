@@ -23,7 +23,7 @@ class SailingTrackerMenuDelegate extends WatchUi.MenuInputDelegate {
         } */
         else if (item == :windView)
         {
-            System.println("wind");
+            //System.println("wind");
             WatchUi.pushView(new SailingWindView(mBoatmodel) , new SailingWindDelegate(mBoatmodel), WatchUi.SLIDE_RIGHT);
         } /*        
         else if (item == :setting)
@@ -32,7 +32,7 @@ class SailingTrackerMenuDelegate extends WatchUi.MenuInputDelegate {
         } */
         else if (item == :exitSave) 
         {
-            System.println("exit save");
+            //System.println("exit save");
             mBoatmodel.save();
             //System.exit(); // cause IQ error
         } 

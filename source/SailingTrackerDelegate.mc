@@ -10,13 +10,12 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() as Boolean {
-
         WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_UP);
         return true;
     }
 
      // Handle the back action    
-    function onBack() {     
+    function onBack() as Boolean {     
         System.println("SailingTrackerDelegate - onBack");
 		// return false so that the InputDelegate method gets called. this will
         // allow us to know what kind of input cause the back behavior
@@ -28,14 +27,14 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     // or click_tap touch
     // The onSelect() method should get called when you tap the screen of the vivoactive_hr. 
     // If onSelect returns false, then onTap should get called
-    function onSelect() {
+    function onSelect() as Boolean {
         System.println("SailingTrackerDelegate - onSelect");  
         return false; // allow InputDelegate function to be called
         //return true;
     }
 
 	// Key pressed
-    function onKey(key) {
+    function onKey(key) as Boolean {
     	//System.println("onKey : " + key);    	
 
        	//if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
@@ -61,20 +60,20 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false; // allow InputDelegate function to be called
     }
 
-    function onNextPage() {
+    function onNextPage() as Boolean {
         System.println("SailingTrackerDelegate - onNextPage");
         // handle it like simple touch
         //mController.onSelect();
         return false; // let handle it !
     }
 
-    function onPreviousPage() {
+    function onPreviousPage() as Boolean {
         System.println("SailingTrackerDelegate -  onPreviousPage");
         return false;
     }
 
     // hold to reset timer
-    function onHold(evt) {
+    function onHold(evt) as Boolean {
 		System.println("SailingTrackerDelegate - onHold");
 		/*
         if (Attention has :vibrate) {

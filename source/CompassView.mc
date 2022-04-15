@@ -8,27 +8,6 @@ import Toybox.Math;
  * base class for all view during activity recording
  */
 
-
-/* handle the correct heading from API */
-function getHeading() {
-	var actInfo = Sensor.getInfo();
-	var heading_rad = 0;
-
-	if (actInfo has :heading)  {
-		heading_rad = actInfo.heading;
-	}
-			
-	var map_declination =  0.0;
-		heading_rad= heading_rad+map_declination*Math.PI/180;			
-			
-	if( heading_rad < 0 ) {
-		heading_rad = 2*Math.PI+heading_rad;
-	}
-	return heading_rad;
-		
-}
-
-
 class CompassView extends Ui.View {
 
     hidden var RAY_EARTH = 6378137; 
