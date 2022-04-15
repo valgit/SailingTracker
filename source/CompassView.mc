@@ -109,7 +109,7 @@ class CompassView extends Ui.View {
 						
 		drawCompass(dc, center_x, center_y, size_max);
 
-        drawHeading(dc);
+        drawHeading(dc,size_max);
         /*
         var recordingStatus = _info.IsRecording;
         drawRecord(dc,recordingStatus);
@@ -227,15 +227,20 @@ class CompassView extends Ui.View {
    //=====================    
     // Draws Heading
     //=====================
-    function drawHeading(dc) {		
-    	
+    function drawHeading(dc,size) {		
+    	var radius = size/2-12;
+
 		dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);		
 
+		/*
 		var i = -(+90)/180.0 * Math.PI;
         var X = ((_canvas_h/2)) * Math.cos(i);
         var Y = ((_canvas_w/2)) * Math.sin(i);
+		*/
+		var X = center_x  ;
+		var Y = center_y - radius;
     	//dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "H", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.fillCircle(X + (_canvas_h/2) ,Y + (_canvas_w/2) ,  5);
+        dc.fillCircle(X  ,Y ,  5);
  		
     }
 
