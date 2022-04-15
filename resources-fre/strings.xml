@@ -1,0 +1,18 @@
+<strings>    
+    <string id="mmenuRacetimer">Race Timer</string>
+    <string id="mmenuCruise">Naviguer</string>
+    <string id="mmenuWind">Vent</string>    
+    <string id="mmenuExitDiscard">Exit Discard Trace</string>
+    <string id="mmenuExitSave">Sauve Trace</string>
+
+    <string id="north">N</string>
+    <string id="east">E</string>
+    <string id="south">S</string>
+    <string id="west">O</string>
+
+    <string id="sail_maxspeed">Vitesse Max</string>  
+    <string id="sail_knots">kt</string>
+
+    <string id="sail_twd">True Wind Direction</string>  
+    <string id="sail_angle">°</string>  
+</strings>

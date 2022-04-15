@@ -12,4 +12,7 @@
 
     <string id="sail_maxspeed">Max Speed</string>  
     <string id="sail_knots">kn</string>  
+
+     <string id="sail_twd">True Wind Direction</string>  
+    <string id="sail_angle">°</string>  
 </strings>
