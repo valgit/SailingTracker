@@ -4,6 +4,8 @@
 import Toybox.Application;
 import Toybox.Math;
 import Toybox.Sensor;
+import Toybox.Time;
+import Toybox.Lang;
 
 // ms to [[hh:]m]m:ss
 function SecToString(timeInSec)
@@ -11,9 +13,11 @@ function SecToString(timeInSec)
     var hour = timeInSec / Time.Gregorian.SECONDS_PER_HOUR;
     var min = (timeInSec.toLong() % Time.Gregorian.SECONDS_PER_HOUR) / Time.Gregorian.SECONDS_PER_MINUTE;
     var sec = (timeInSec.toLong() % Time.Gregorian.SECONDS_PER_HOUR) % Time.Gregorian.SECONDS_PER_MINUTE;
+    
     return Lang.format(
         "$1$:$2$:$3$", 
         [hour.format("%02d"), min.format("%02d"), sec.format("%02d")]);
+    
 }
     
 // return absolute number

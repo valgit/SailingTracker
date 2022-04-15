@@ -1,5 +1,6 @@
 import Toybox.Graphics;
 import Toybox.WatchUi;
+import Toybox.Math;
 
 class SailingTrackerView extends WatchUi.View /* CompassView */ {    
     //var mps_to_kts = 1.943844492;
@@ -91,11 +92,13 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         //  show VMG ?
         //System.println("TWD is : " + info.Twd);
         //var twd = mBoatmodel.getWind();
-        var vmg = info.SpeedKnot * Math.cos((info.Twd-info.BearingDegree)* 0.0174532 ); //  (pi /180 )
+        var twa = Abs(info.Twd-info.BearingDegree);
+        var vmg = info.SpeedKnot * Math.cos( Math.toRadians(twa) ); 
         //System.println("vmg is : " + vmg);
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var vmgStr = vmg.format("%02.1f");
-        dc.drawText(_canvas_w * 0.12 ,(_canvas_h * 0.43), Graphics.FONT_XTINY, vmgStr, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(_canvas_w * 0.12 ,(_canvas_h * 0.43), Graphics.FONT_TINY, vmgStr, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(_canvas_w * 0.12 ,(_canvas_h * 0.57), Graphics.FONT_XTINY, "vmg", Graphics.TEXT_JUSTIFY_LEFT);
 
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -111,9 +114,10 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         // Activity.Info elapsedTime in ms
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var timer = info.ElapsedTime;
-        timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
-        dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
+        //timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
+        timer = SecToString(timer);
+        dc.drawText(_canvas_w * 0.67, (_canvas_h * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(_canvas_w * 0.67, (_canvas_h * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
         
         //System.println("cur dist " + distance +" nm - time : "+timer );
 
