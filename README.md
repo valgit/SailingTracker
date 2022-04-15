@@ -11,16 +11,35 @@ This is written in MonkeyC and currently targets the  VivoActive 3 (but I'd love
 - current direction (heading in degrees)
 - distance (in nm )
 - time
+- add wind info
 
-- max speed will be in CIQ data
+- twd, max speed will be in CIQ data
 
 # How to use it
 
 # TODO
 
-- add wind info
 - add tacking helpers ?
 - add VMG calculation
 - add waypoint handling ?
 - add MOB ?
 - add track view
+
+
+## License
+
+[gpl-3.0](https://choosealicense.com/licenses/gpl-3.0//)
+
+
+## Authors
+
+- [@vbrasseur](here)
+
+
+## Badges
+
+Add badges from somewhere like: 
+
+[Garmin](https://shields.io/)
+
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
