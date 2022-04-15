@@ -46,6 +46,9 @@ class BoatInfo
 
     // elapsed time
     var ElapsedTime = 0;
+
+    // True Wind Angle
+    var Twd = 0;
 }
 
 /*
@@ -87,9 +90,14 @@ class boatModel {
     hidden var _duration = 0;
     hidden var _maxSpeedKnot = 0;
     
+    hidden var _twd = 0;
+
     // FIT Contributions variables
     hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
     hidden var mSessMaxSpeedField = null;
+
+    hidden const TWD_FIELD_ID = 2;   // twd !
+    hidden var mSessTWDField = null;
 
     const MAX_SPEED_INTERVAL = 3;
     const AVG_SPEED_INTERVAL = 10;
@@ -143,6 +151,11 @@ class boatModel {
             {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>WatchUi.loadResource(Rez.Strings.sail_knots	)}
             );
 
+        mSessTWDField = mSession.createField(WatchUi.loadResource(Rez.Strings.sail_twd),
+            TWD_FIELD_ID, 
+            FitContributor.DATA_TYPE_FLOAT, 
+            {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>WatchUi.loadResource(Rez.Strings.sail_angle	)}
+            );
     }
 
 
@@ -211,7 +224,8 @@ class boatModel {
   
             
         */       
-            mSessMaxSpeedField.setData(_maxSpeedKnot);                   
+            mSessMaxSpeedField.setData(_maxSpeedKnot);
+            mSessTWDField.setData(_twd);
 	        mSession.save();
             }
 	        mSession = null;
@@ -327,6 +341,17 @@ class boatModel {
         timer = timer / 60;
         gpsInfo.ElapsedTime = timer;
 
+        gpsInfo.Twd = _twd;
+
         return gpsInfo;
+    }
+
+    // define the TWD
+    function setWind(twd) {
+        _twd = twd;
+    }
+
+    function getWind() {
+        return _twd;
     }
 }

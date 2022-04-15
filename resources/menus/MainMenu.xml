@@ -1,9 +1,9 @@
 <resources>
 	<menu id="MainMenu" title="Menu">
 			<menu-item id="raceTimer" label="@Strings.mmenuRacetimer"/>
+			<menu-item id="windView" label="@Strings.mmenuWind"/>	    		   		
 			<menu-item id="cruiseView" label="@Strings.mmenuCruise"/>
-	    	<menu-item id="windView" label="@Strings.mmenuWind"/>	    	
-	   		<menu-item id="exitDiscard" label="@Strings.mmenuExitDiscard"/>
 	    	<menu-item id="exitSave" label="@Strings.mmenuExitSave"/>
+			<menu-item id="exitDiscard" label="@Strings.mmenuExitDiscard"/>
 	</menu>	
 </resources>

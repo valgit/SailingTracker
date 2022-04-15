@@ -7,5 +7,8 @@
     <string id="west">W</string>
 
     <string id="sail_maxspeed">Max Speed</string>  
-    <string id="sail_knots">Knots</string>  
+    <string id="sail_knots">kt</string>  
+
+    <string id="sail_twd">True Wind Direction</string>  
+    <string id="sail_angle">°</string>  
 </strings>

@@ -74,9 +74,9 @@ class CompassView extends Ui.View {
 		_canvas_w = dc.getWidth();
         _canvas_h = dc.getHeight();      
 
-    	size_max = dc.getWidth() > dc.getHeight() ? dc.getHeight() : dc.getWidth();
-    	center_x = dc.getWidth() / 2;
-		center_y = dc.getHeight() / 2;
+    	size_max = _canvas_w > _canvas_h ? _canvas_h : _canvas_w;
+    	center_x = _canvas_w / 2;
+		center_y = _canvas_h / 2;
     }
     
 	function onUpdate(dc as Dc) as Void {  

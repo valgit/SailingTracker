@@ -21,10 +21,10 @@ class SailingTrackerMenuDelegate extends WatchUi.MenuInputDelegate {
         {
             Ui.pushView(_cruiseView, new CruiseViewDelegate(_cruiseView, _gpsWrapper), Ui.SLIDE_RIGHT);
         } */
-        else if (item == :routeMenu)
+        else if (item == :windView)
         {
-            System.println("route");
-            //Ui.pushView(_routeCustomMenuView, new RouteCustomMenuDelegate(_routeCustomMenuView), Ui.SLIDE_RIGHT);
+            System.println("wind");
+            WatchUi.pushView(new SailingWindView(mBoatmodel) , new SailingWindDelegate(mBoatmodel), WatchUi.SLIDE_RIGHT);
         } /*        
         else if (item == :setting)
         {
