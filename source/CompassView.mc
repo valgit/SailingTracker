@@ -8,27 +8,6 @@ import Toybox.Math;
  * base class for all view during activity recording
  */
 
-
-/* handle the correct heading from API */
-function getHeading() {
-	var actInfo = Sensor.getInfo();
-	var heading_rad = 0;
-
-	if (actInfo has :heading)  {
-		heading_rad = actInfo.heading;
-	}
-			
-	var map_declination =  0.0;
-		heading_rad= heading_rad+map_declination*Math.PI/180;			
-			
-	if( heading_rad < 0 ) {
-		heading_rad = 2*Math.PI+heading_rad;
-	}
-	return heading_rad;
-		
-}
-
-
 class CompassView extends Ui.View {
 
     hidden var RAY_EARTH = 6378137; 
@@ -86,12 +65,13 @@ class CompassView extends Ui.View {
 
         var _info = mBoatmodel.GetBoatInfo();
 
+		/*
 		// time
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var clockTime = System.getClockTime();
         var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
         dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
-
+		*/
 		heading_rad = getHeading();
 
 		// heading arrow        							
@@ -108,10 +88,11 @@ class CompassView extends Ui.View {
 						
 		drawCompass(dc, center_x, center_y, size_max);
 
-        drawHeading(dc);
-        
+        drawHeading(dc,size_max);
+        /*
         var recordingStatus = _info.IsRecording;
         drawRecord(dc,recordingStatus);
+		*/
 	}
     
 	function drawTextOrientation(dc, center_x, center_y, size, orientation){
@@ -225,15 +206,20 @@ class CompassView extends Ui.View {
    //=====================    
     // Draws Heading
     //=====================
-    function drawHeading(dc) {		
-    	
+    function drawHeading(dc,size) {		
+    	var radius = size/2-12;
+
 		dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);		
 
+		/*
 		var i = -(+90)/180.0 * Math.PI;
         var X = ((_canvas_h/2)) * Math.cos(i);
         var Y = ((_canvas_w/2)) * Math.sin(i);
+		*/
+		var X = center_x  ;
+		var Y = center_y - radius;
     	//dc.drawText(X + (_canvas_h/2), Y + (_canvas_w/2) - fontHeight/2, Graphics.FONT_TINY, "H", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.fillCircle(X + (_canvas_h/2) ,Y + (_canvas_w/2) ,  5);
+        dc.fillCircle(X  ,Y ,  5);
  		
     }
 

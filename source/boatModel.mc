@@ -228,12 +228,14 @@ class boatModel {
             mSessTWDField.setData(_twd);
 	        mSession.save();
             }
-	        mSession = null;
+            // rely on this not null for other
+	        //mSession = null; 
     }      
     
 
     // Discard the current session
     function discard() {
+        // rely on this not null for other
     	if (mSession != null) {        
 	        mSession.discard();
 	        mSession = null;
@@ -335,10 +337,7 @@ class boatModel {
         gpsInfo.TotalDistance = _distance / METERS_PER_NAUTICAL_MILE;
         gpsInfo.GpsLocation = _location; 
 
-        var timer = activity.elapsedTime;
-        if (timer == null) { timer = 0; }
-        timer = timer / 1000;
-        timer = timer / 60;
+        var timer = getTimeElapsed();                 
         gpsInfo.ElapsedTime = timer;
 
         gpsInfo.Twd = _twd;

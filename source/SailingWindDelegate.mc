@@ -7,7 +7,7 @@ import Toybox.Attention;
  * handle setting TWD
  * start should set
  * back : should go back !
- * maybe prev/next to adjust
+ * maybe prev/next to adjust wind speed ?
  */
 class SailingWindDelegate extends WatchUi.BehaviorDelegate {
     hidden var mBoatmodel;
@@ -51,18 +51,14 @@ class SailingWindDelegate extends WatchUi.BehaviorDelegate {
        	//if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
         if (key.getKey() == WatchUi.KEY_ENTER || WatchUi.KEY_START == key.getKey() ) {
             // Pass the input to the controller
-            System.println("set wind dir");
-            var actInfo = Sensor.getInfo();	        
-
-	        if (actInfo has :heading)  {
-		        var heading_deg = actInfo.heading * 180 / Math.PI;
-                System.println("TWD : "+ heading_deg);
-                mBoatmodel.setWind(heading_deg);
-                if (Attention has :vibrate) {
-                    var vibe = [new Attention.VibeProfile(  50, 100 )];
-                    Attention.vibrate(vibe);
-                }
-	        }        	
+            //System.println("set wind dir");
+            var heading_deg  = getHeading() * 57.29; 
+            //TODO: may need to reverse ?
+            mBoatmodel.setWind(heading_deg);
+            if (Attention has :vibrate) {
+                var vibe = [new Attention.VibeProfile(  50, 100 )];
+                Attention.vibrate(vibe);
+            }	                	
             
             return true; // we handle it !
         }

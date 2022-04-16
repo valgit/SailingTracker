@@ -3,6 +3,9 @@
  */
 import Toybox.Application;
 import Toybox.Math;
+import Toybox.Sensor;
+import Toybox.Time;
+import Toybox.Lang;
 
 // ms to [[hh:]m]m:ss
 function SecToString(timeInSec)
@@ -10,9 +13,11 @@ function SecToString(timeInSec)
     var hour = timeInSec / Time.Gregorian.SECONDS_PER_HOUR;
     var min = (timeInSec.toLong() % Time.Gregorian.SECONDS_PER_HOUR) / Time.Gregorian.SECONDS_PER_MINUTE;
     var sec = (timeInSec.toLong() % Time.Gregorian.SECONDS_PER_HOUR) % Time.Gregorian.SECONDS_PER_MINUTE;
+    
     return Lang.format(
         "$1$:$2$:$3$", 
         [hour.format("%02d"), min.format("%02d"), sec.format("%02d")]);
+    
 }
     
 // return absolute number
@@ -37,6 +42,22 @@ function toHMS(secs) {
     var min = (secs-(hr*3600))/60;
     var sec = secs%60;
     return [hr, min,sec];
+}
+
+/* handle the correct heading from API */
+function getHeading() {
+	var actInfo = Sensor.getInfo();
+	var heading_rad = 0;
+
+	if (actInfo has :heading)  {
+		heading_rad = actInfo.heading;
+	}
+    		
+	if( heading_rad < 0 ) {
+		heading_rad = 2*Math.PI+heading_rad;
+	}
+	return heading_rad;
+		
 }
 
 function headingToStrRad(heading){
