@@ -90,7 +90,7 @@ class boatModel {
     hidden var _duration = 0;
     hidden var _maxSpeedKnot = 0;
     
-    hidden var _twd = 0;
+    hidden var _twd = 292; // test ONO DK 0;
 
     // FIT Contributions variables
     hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
@@ -121,7 +121,7 @@ class boatModel {
 		        	mSession = ActivityRecording.createSession(
 		        	 	{
 		        	 		// :name=>"diving_"+Time.now().value(), // set session name
-		  				   :name=>"SailingCruise", // +Time.now().value(),      // set session name
+		  				   :name=>"Sailing", // +Time.now().value(),      // set session name
 		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
 		  				   :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
 		  				   //:sensorLogger => mLogger // add accel logger
