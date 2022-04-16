@@ -72,3 +72,9 @@ Et après le on t'appeler le start qui démarre au qui arrête le le recording
 
 Pour le will intelligence on part sur la touche start qui fixe le le bon courant peut-être le le prevnext qui a juste
 Et pourquoi pas un système qui permettent de fixer la vitesse aussi
+
+
+VMG: 
+
+vent ONON 292
+cap 315 vit 5.9 kn
