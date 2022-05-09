@@ -49,6 +49,9 @@ class BoatInfo
 
     // True Wind Angle
     var Twd = 0;
+
+    // current vmg
+    var vmg = 0;
 }
 
 /*
@@ -341,6 +344,12 @@ class boatModel {
         gpsInfo.ElapsedTime = timer;
 
         gpsInfo.Twd = _twd;
+
+        //System.println("TWD is : " + info.Twd);
+        //var twd = mBoatmodel.getWind();
+        var _twa = Abs(_twd - _bearingDegree);
+        var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
+        gpsInfo.vmg = _vmg;
 
         return gpsInfo;
     }
