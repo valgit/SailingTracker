@@ -35,6 +35,11 @@ class SailingTrackerMenuDelegate extends WatchUi.MenuInputDelegate {
             //System.println("exit save");
             mBoatmodel.save();
             //System.exit(); // cause IQ error
+            // pop to main
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+            // pop to exit app
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+            //System.exit(); // cause IQ error
         } 
         else if (item == :exitDiscard) 
         {
