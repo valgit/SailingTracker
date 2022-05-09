@@ -99,6 +99,9 @@ class boatModel {
     hidden const TWD_FIELD_ID = 2;   // twd !
     hidden var mSessTWDField = null;
 
+    hidden const VMG_FIELD_ID = 3;   // twd !
+    hidden var mRecVMGField = null;
+
     const MAX_SPEED_INTERVAL = 3;
     const AVG_SPEED_INTERVAL = 10;
     const AVG_BEARING_INTERVAL = 10;
@@ -129,13 +132,26 @@ class boatModel {
 		    
 		        	);
 		        }		        	
-		    	//initializeFITRecord();
+		    	initializeFITRecord();
 		    	
 		    	initializeFITsession();
 		    
                 //initializeFITLap();
 
 		   }
+    }
+
+    /*
+     * fit contributor for Record session 
+     */
+	function initializeFITRecord() {
+	    // Create the new FIT fields to record to.
+		        // current values
+		        
+        mRecVMGField = mSession.createField(Ui.loadResource(Rez.Strings.sail_vmg), 
+            VMG_FIELD_ID, 
+            FitContributor.DATA_TYPE_FLOAT, 
+            {:mesgType => FitContributor.MESG_TYPE_RECORD, :units=>Ui.loadResource(Rez.Strings.sail_knots)});
     }
 
     /*
