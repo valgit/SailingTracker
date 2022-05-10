@@ -1,4 +1,6 @@
-<strings>    
+<strings>
+    <string id="AppName">SailingTracker</string>
+    
     <string id="mmenuRacetimer">Race Timer</string>
     <string id="mmenuCruise">Cruise</string>
     <string id="mmenuWind">Wind</string>    

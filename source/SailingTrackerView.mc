@@ -92,8 +92,8 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         //  show VMG ?
         //System.println("TWD is : " + info.Twd);
         //var twd = mBoatmodel.getWind();
-        var twa = Abs(info.Twd-info.BearingDegree);
-        var vmg = info.SpeedKnot * Math.cos( Math.toRadians(twa) ); 
+        //var twa = Abs(info.Twd-info.BearingDegree);
+        var vmg = info.vmg; // SpeedKnot * Math.cos( Math.toRadians(twa) ); 
         //System.println("vmg is : " + vmg);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var vmgStr = vmg.format("%02.1f");

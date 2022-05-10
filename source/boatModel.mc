@@ -49,6 +49,9 @@ class BoatInfo
 
     // True Wind Angle
     var Twd = 0;
+
+    // current vmg
+    var vmg = 0;
 }
 
 /*
@@ -90,7 +93,7 @@ class boatModel {
     hidden var _duration = 0;
     hidden var _maxSpeedKnot = 0;
     
-    hidden var _twd = 0;
+    hidden var _twd = 0; // 292 test ONO DK 0;
 
     // FIT Contributions variables
     hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
@@ -124,7 +127,7 @@ class boatModel {
 		        	mSession = ActivityRecording.createSession(
 		        	 	{
 		        	 		// :name=>"diving_"+Time.now().value(), // set session name
-		  				   :name=>"SailingCruise", // +Time.now().value(),      // set session name
+		  				   :name=>"Sailing", // +Time.now().value(),      // set session name
 		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
 		  				   :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
 		  				   //:sensorLogger => mLogger // add accel logger
@@ -357,6 +360,12 @@ class boatModel {
         gpsInfo.ElapsedTime = timer;
 
         gpsInfo.Twd = _twd;
+
+        //System.println("TWD is : " + info.Twd);
+        //var twd = mBoatmodel.getWind();
+        var _twa = Abs(_twd - _bearingDegree);
+        var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
+        gpsInfo.vmg = _vmg;
 
         return gpsInfo;
     }
