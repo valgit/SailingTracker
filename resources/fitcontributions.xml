@@ -11,7 +11,7 @@
 			dataLabel="@Strings.sail_twd" 
 			unitLabel="@Strings.sail_angle"  />
 		<!-- RECCORD : Reccord Data Definitions -->
-		<fitField id="1" displayInChart="true" 
+		<fitField id="3" displayInChart="true" 
 			sortOrder = "0" 
 			precision="2"
 			chartTitle="@Strings.sail_vmg_title"
