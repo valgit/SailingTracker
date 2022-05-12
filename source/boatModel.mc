@@ -94,6 +94,7 @@ class boatModel {
     hidden var _maxSpeedKnot = 0;
     
     hidden var _twd = 0; // 292 test ONO DK 0;
+    hidden var _vmg = 0;
 
     // FIT Contributions variables
     hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
@@ -248,7 +249,7 @@ class boatModel {
 	        mSession.save();
             }
             // rely on this not null for other
-	        //mSession = null; 
+	        mSession = null; 
     }      
     
 
@@ -327,6 +328,14 @@ class boatModel {
         _avgBearingDegree = (Math.toDegrees(Math.atan2(_sinBearingSum, _cosBearingSum)) + 360).toNumber() % 360;
         _avgBearingIterator = (_avgBearingIterator + 1) % AVG_BEARING_INTERVAL;
 
+        // vmg
+        //
+
+        var _twa = Abs(_twd - _bearingDegree);
+        var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
+        System.println("VMG is : " + _vmg);
+        mRecVMGField.setData(_vmg);
+
         _location = positionInfo.position;
     }
 
@@ -363,9 +372,9 @@ class boatModel {
 
         //System.println("TWD is : " + info.Twd);
         //var twd = mBoatmodel.getWind();
-        var _twa = Abs(_twd - _bearingDegree);
-        var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
-         System.println("VMG is : " + _vmg);
+        //var _twa = Abs(_twd - _bearingDegree);
+        //var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
+        // System.println("VMG is : " + _vmg);
         gpsInfo.vmg = _vmg;
 
         return gpsInfo;

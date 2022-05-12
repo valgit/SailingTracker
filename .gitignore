@@ -84,6 +84,8 @@ fastlane/readme.md
 bin/
 properties.mk
 
+temp/
+
 # sublime
 *.sublime-workspace
 
