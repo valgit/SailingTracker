@@ -17,4 +17,7 @@
 
     <string id="sail_twd">True Wind Direction</string>  
     <string id="sail_angle">°</string>  
+
+    <string id="sail_vmg">VMG</string>  
+    <string id="sail_vmg_title">Velocity Made Good</string>  
 </strings>

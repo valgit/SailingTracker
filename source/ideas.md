@@ -78,3 +78,7 @@ VMG:
 
 vent ONON 292
 cap 315 vit 5.9 kn
+
+pas de vmg ?
+pas de distance
+cap ok verif avec tactic
