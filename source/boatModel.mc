@@ -89,7 +89,7 @@ class boatModel {
     // global values
     //
     hidden var _startTime;
-    hidden var _distance = 0;
+    //hidden var _distance = 0;
     hidden var _duration = 0;
     hidden var _maxSpeedKnot = 0;
     
@@ -333,7 +333,7 @@ class boatModel {
 
         var _twa = Abs(_twd - _bearingDegree);
         var _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
-        //System.println("VMG is : " + _vmg);
+        System.println("VMG is : " + _vmg);
         mRecVMGField.setData(_vmg);
 
         _location = positionInfo.position;
@@ -359,8 +359,11 @@ class boatModel {
         gpsInfo.AvgBearingDegree = _avgBearingDegree;
 
         var activity = Activity.getActivityInfo();
-        var distance = activity.elapsedDistance;
-        if (distance == null) { distance = 0; }
+        // null if not recording ...
+        //The elapsed distance of the current activity in meters (m). 
+        var _distance = activity.elapsedDistance;
+        //System.println(_distance); in meter
+        if (_distance == null) { _distance = 0; }
 
         gpsInfo.TotalDistance = _distance / METERS_PER_NAUTICAL_MILE;
         gpsInfo.GpsLocation = _location; 

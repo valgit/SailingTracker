@@ -104,6 +104,7 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var distance = info.TotalDistance;
         
+        //System.println(distance); in nm
         //distance = distance * m_to_nm;
         distance = distance.format("%02.2f");
         dc.drawText(_canvas_w * 0.62, (_canvas_h * 0.70), Graphics.FONT_TINY, distance, Graphics.TEXT_JUSTIFY_RIGHT);
