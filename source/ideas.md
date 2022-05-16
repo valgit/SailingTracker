@@ -79,6 +79,6 @@ VMG:
 vent ONON 292
 cap 315 vit 5.9 kn
 
-pas de vmg ?
-pas de distance
 cap ok verif avec tactic
+https://github.com/Rodemfr/MicronetToNMEA
+https://www.hisse-et-oh.com/sailing/decodage-du-protocole-micronet-et-envoi-a-qtvlm-et-opencpn
