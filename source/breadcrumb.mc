@@ -6,9 +6,9 @@ import Toybox.System;
 
 class breadCrumb {
     hidden var _numPoint = 1024;
-    hidden var _laspt = 0;
-    hidden var _lat[];
-    hidden var _lon[];
+    hidden var _lastpt = 0;
+    hidden var _lat;
+    hidden var _lon;
 
     hidden var _lonMax = -180.0;
     hidden var _lonMin =  180.0;
@@ -25,8 +25,8 @@ class breadCrumb {
         // add point, keep in the limit (1 point per 1min ?)
         // convert in meter
         var _current = positionInfo.position.toRadians();
-        if (!_first) {
-            _first = 1;            
+        if (!_firstpt) {
+            _firstpt = 1;            
             _flat = _current[0];
             _flon = _current[1];
         }
@@ -45,7 +45,7 @@ class breadCrumb {
         latMin = (latMin < lat[i]) ? latMax : lat[i];
         */
 
-        _lastpt = _lastps + 1;
+        _lastpt = _lastpt + 1;
         if (_lastpt > 1024) {
             // overflow !!
             System.print("overflowing");
@@ -54,6 +54,12 @@ class breadCrumb {
     }
 
     function drawBreadcrumb(dc) {
-
+        System.println("drawBreadcrumb - in");
+        System.println("num point : " + _lastpt);
+        var maxpt = _lastpt -1;
+        for(var i=0; i < maxpt; i+=1) {
+            System.println("pt : " + _lat[i] + "," + _lon[i]);
+        }
+        System.println("drawBreadcrumb - out");
     }
 }
