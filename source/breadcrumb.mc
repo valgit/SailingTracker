@@ -38,8 +38,8 @@ class breadCrumb {
         Pn.y = (P0.lat - Pn.lat)*111120 (.toNumber())
         */
         //TODO:  use when to check if intervall is OK
-        _lastTime = positionInfo.position.when;
-        
+        _lastTime = positionInfo.when;
+        System.println("time "+ _lastTime.value());
         _lat[_lastpt] = _current[0];
         _lon[_lastpt] = _current[1];
 
