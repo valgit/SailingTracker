@@ -118,6 +118,8 @@ class boatModel {
     // FIT recording session
     hidden var mSession;
 
+    hidden var breadcrumb; //TODO
+
       // Initialize sensor readings
     function initialize() {    
     	//System.println("model init"); 
@@ -142,6 +144,8 @@ class boatModel {
 		    
                 //initializeFITLap();
 
+                // need better place
+                breadcrumb = new breadCrumb();
 		   }
     }
 
@@ -337,6 +341,10 @@ class boatModel {
         mRecVMGField.setData(_vmg);
 
         _location = positionInfo.position;
+
+        //TODO:
+        breadcrumb.addPoint(positionInfo);
+
     }
 
 
@@ -390,5 +398,11 @@ class boatModel {
 
     function getWind() {
         return _twd;
+    }
+
+    //TODO
+    function drawBread(dc)
+    {
+        breadcrumb.drawBreadcrumb(dc);
     }
 }

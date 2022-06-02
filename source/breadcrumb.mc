@@ -7,8 +7,8 @@ import Toybox.System;
 class breadCrumb {
     hidden var _numPoint = 1024;
     hidden var _lastpt = 0;
-    hidden var _lat;
-    hidden var _lon;
+    hidden var _lat = new [1024];
+    hidden var _lon = new [1024];
 
     hidden var _lonMax = -180.0;
     hidden var _lonMin =  180.0;
@@ -17,6 +17,7 @@ class breadCrumb {
     hidden var _firstpt = 0;
     hidden var _flat;
     hidden var _flon;
+    hidden var _lastTime;
 
     function initialize() {    
     }
@@ -24,7 +25,9 @@ class breadCrumb {
     function addPoint(positionInfo) {
         // add point, keep in the limit (1 point per 1min ?)
         // convert in meter
-        var _current = positionInfo.position.toRadians();
+        var _current = positionInfo.position.toDegrees(); // toRadians();
+        //System.println("pos is : "+ positionInfo.position);
+        //System.println("rad is : " + _current);
         if (!_firstpt) {
             _firstpt = 1;            
             _flat = _current[0];
@@ -34,6 +37,9 @@ class breadCrumb {
         Pn.x = (Pn.lon -P0.lon)*cos(P0.lat)*111120 (.toNumber())
         Pn.y = (P0.lat - Pn.lat)*111120 (.toNumber())
         */
+        //TODO:  use when to check if intervall is OK
+        _lastTime = positionInfo.position.when;
+        
         _lat[_lastpt] = _current[0];
         _lon[_lastpt] = _current[1];
 

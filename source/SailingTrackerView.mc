@@ -50,6 +50,9 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
 
         var _info = mBoatmodel.GetBoatInfo();
         
+        //TODO:
+        mBoatmodel.drawBread(dc);
+        
         // time
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var clockTime = System.getClockTime();
