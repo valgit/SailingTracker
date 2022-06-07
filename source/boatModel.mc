@@ -129,7 +129,8 @@ class boatModel {
 		        if ((mSession == null) || (mSession.isRecording() == false)) {
 		        	mSession = ActivityRecording.createSession(
 		        	 	{
-		        	 		// :name=>"diving_"+Time.now().value(), // set session name
+                            // TODO: for f235 numerical value
+		        	 	    // :name=>"diving_"+Time.now().value(), // set session name
 		  				   :name=>"Sailing", // +Time.now().value(),      // set session name
 		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
 		  				   :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
