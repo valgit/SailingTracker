@@ -86,5 +86,51 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;
     }
     
+    /*
+	function onSwipe(evt) {
+        var swipe = evt.getDirection();
+    	//System.println("dlg: onSwipe : " + swipe);
+    	
+    	 var swipe = evt.getDirection();
+
+        if (swipe == SWIPE_UP) {
+            setActionString("SWIPE_UP");
+        } else if (swipe == SWIPE_RIGHT) {
+            setActionString("SWIPE_RIGHT");
+        } else if (swipe == SWIPE_DOWN) {
+            setActionString("SWIPE_DOWN");
+        } else if (swipe == SWIPE_LEFT) {
+            setActionString("SWIPE_LEFT");
+        }
+        
+        return false;  // allow InputDelegate function to be called
+    }
+    
+    // Screen Tap
+    function onTap(evt) {
+    	//System.println("dlg: onTap : " + evt.getType() );
+
+        var now = System.getTimer();    
+           
+        if ((mStartedAt != 0) && ((now - mStartedAt) <= DOUBLETOUCH_MS)) {
+            //detect double touch ? 
+            //System.println("onTap - double touch");
+            //mStartedAt = 0;
+          
+            // call controller
+            mController.onDoubleTouch();
+            mStartedAt = now;
+            return true;
+        } else {
+            mController.onSelect();
+            mStartedAt = now;
+            return true;
+        }
+        mStartedAt = now;
+
+        return false;  // allow InputDelegate function to be called
+    }
+    
+    */
 
 }
