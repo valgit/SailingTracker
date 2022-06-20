@@ -86,3 +86,52 @@ cap 315 vit 5.9 kn
 cap ok verif avec tactic
 https://github.com/Rodemfr/MicronetToNMEA
 https://www.hisse-et-oh.com/sailing/decodage-du-protocole-micronet-et-envoi-a-qtvlm-et-opencpn
+
+
+5 buttons :
+    Top Left – Press to toggle the backlight. Press and hold to access the controls menu.
+    Middle Left – Press for a previous/up behavior. Press and hold for a menu behavior.
+    Bottom Left – Press for a next/down behavior.
+    Top Right – Press for a select behavior. Commonly used for the start/stop action on Garmin activities.
+    Bottom Right – Press for a back behavior.
+
+1 button
+    Swiping left to right will perform the previous/up behavior.
+    Swiping right to left will perform the next/down behavior.
+    Menus can be dragged and flicked with the touch screen.
+    Tapping on a screen item performs a select behavior.
+    Tapping the on-screen back button performs the back action.
+    Tapping the on-screen hamburger menu performs the menu action.
+
+
+var pair = Application.Storage.getValue(“points”);
+if(pair==null){pair = new [0];}
+
+var pos = Position.getInfo().position;
+pos = pos.toDegrees();
+
+lat = pos[0];
+lon = pos[1];
+var CurrPair = [lat,lon];
+pair.add(CurrPair)
+
+Me = [240/2, 240/2];
+
+function transformCoordinates(lat, lon){
+var pixelsLong = (120 - lon) * (4 / screenWidthPixels);
+
+var pixelsHeight = (lat - 120) * (4 / screenHeightPixels);
+
+var x = Me[0] - pixelsLong;
+var y = Me[1] - pixelsLat;
+
+return [x,y];}
+
+function onUpdate;
+
+if (track! = null){
+
+dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+
+for(var i=0; i < track.size(); i=i+2){
+var pointA = transformCoordinates(track[i], track[i+1]);

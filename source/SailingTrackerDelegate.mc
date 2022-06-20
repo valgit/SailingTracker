@@ -4,9 +4,15 @@ import Toybox.WatchUi;
 class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     var mBoatmodel;
 
+    // for double touch ? (in ms)
+    hidden const DOUBLETOUCH_MS = 250;
+    hidden var mStartedAt;
+
     function initialize(boat) {
         BehaviorDelegate.initialize();
         mBoatmodel = boat;
+
+        mStartedAt = 0;    
     }
 
     function onMenu() as Boolean {
@@ -86,6 +92,11 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;
     }
     
+    function onDoubleTouch() as Boolean {
+        System.println("SailingTrackerDelegate -  onDoubleTouch");
+        return false;
+    }
+
     /*
 	function onSwipe(evt) {
         var swipe = evt.getDirection();
@@ -105,10 +116,11 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         
         return false;  // allow InputDelegate function to be called
     }
-    
+    */
     // Screen Tap
     function onTap(evt) {
     	//System.println("dlg: onTap : " + evt.getType() );
+        System.println("SailingTrackerDelegate - onTap");
 
         var now = System.getTimer();    
            
@@ -118,11 +130,11 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
             //mStartedAt = 0;
           
             // call controller
-            mController.onDoubleTouch();
+            onDoubleTouch();
             mStartedAt = now;
             return true;
-        } else {
-            mController.onSelect();
+        }  else {
+            onSelect();
             mStartedAt = now;
             return true;
         }
@@ -131,6 +143,5 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;  // allow InputDelegate function to be called
     }
     
-    */
 
 }
