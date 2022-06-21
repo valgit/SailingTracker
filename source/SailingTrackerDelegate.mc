@@ -16,6 +16,7 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() as Boolean {
+        //System.println("SailingTrackerDelegate - onMenu");
         WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_UP);
         return true;
     }
@@ -102,21 +103,22 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         var swipe = evt.getDirection();
     	//System.println("dlg: onSwipe : " + swipe);
     	
-    	 var swipe = evt.getDirection();
+    	//var swipe = evt.getDirection();
 
         if (swipe == SWIPE_UP) {
-            setActionString("SWIPE_UP");
+            System.println("SWIPE_UP");
         } else if (swipe == SWIPE_RIGHT) {
-            setActionString("SWIPE_RIGHT");
+            System.println("SWIPE_RIGHT");
         } else if (swipe == SWIPE_DOWN) {
-            setActionString("SWIPE_DOWN");
+            System.println("SWIPE_DOWN");
         } else if (swipe == SWIPE_LEFT) {
-            setActionString("SWIPE_LEFT");
+            System.println("SWIPE_LEFT");
         }
         
         return false;  // allow InputDelegate function to be called
     }
-    */
+*/
+    
     // Screen Tap
     function onTap(evt) {
     	//System.println("dlg: onTap : " + evt.getType() );

@@ -338,13 +338,13 @@ class boatModel {
 
         var _twa = Abs(_twd - _bearingDegree);
         _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
-        System.println("VMG is : " + _vmg);
+        //System.println("VMG is : " + _vmg);
         mRecVMGField.setData(_vmg);
 
         _location = positionInfo.position;
 
         //TODO:
-        breadcrumb.addPoint(positionInfo);
+        //breadcrumb.addPoint(positionInfo);
 
     }
 
