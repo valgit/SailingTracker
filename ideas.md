@@ -103,6 +103,8 @@ https://www.hisse-et-oh.com/sailing/decodage-du-protocole-micronet-et-envoi-a-qt
     Tapping the on-screen back button performs the back action.
     Tapping the on-screen hamburger menu performs the menu action.
 
+I use the button like in native apps for start/pause/save/discard.  For lap, I use the right swipe, as is used for back, as most other devices use onBack() for a lap (those that don't have a separate lap button).  Catching the double tap is an app can be a bit tricky.
+
 
 var pair = Application.Storage.getValue(“points”);
 if(pair==null){pair = new [0];}
