@@ -22,6 +22,7 @@ class countdownView extends Ui.View {
         // Get the model and controller from the Application
         mBoatmodel = boat;
         //mController = Application.getApp().controller;
+        //App.getApp().getDefaultTimerCount();
 	}
         
     function onShow() as Void {
