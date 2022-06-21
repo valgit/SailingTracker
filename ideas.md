@@ -137,3 +137,101 @@ dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 
 for(var i=0; i < track.size(); i=i+2){
 var pointA = transformCoordinates(track[i], track[i+1]);
+var pointB = transformCoordinates(track[i+2], track[i+3]);
+
+dc.setPenWidth(8);
+
+dc.drawPoint(pointA[0], pointA[1]);
+
+dc.setPenWidth(3);
+
+dc.drawLine(pointA[0], pointA[1] , pointB[0], pointB[1] );
+
+for(i=0;i<track.size();i=i+2) {
+    thisLat=track[i];
+    thisLon=track[i+1];
+    //do whatever
+}
+
+
+const EARTHRADIUS = 6371000.0d;  // m
+var scaleDistDeg = (EARTHRADIUS * Math.PI) / 180.0d;  // m/deg
+
+// define maximum trace length in m to display
+// either with hard coding or by user settings
+// this means only the last 1000m are inside the display 
+// the other points are outside and therefore not visible
+const totalTraceLen = 1000.0;
+var totalTraceDeg = traceLen / scaleDistDeg;  // deg/1000m
+
+var lonMax = totalTraceDeg;
+var lonMin = 0.0d;
+var latMax = totalTraceDeg;
+var latMin = 0.0d;
+
+//--- old code equals to last comment ---
+
+// scale the geographical size to the display size
+var scaleX = dc.getWidth() / (lonMax - lonMin);
+var scaleY = dc.getHeight() / (latMax - latMin);
+var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
+
+for(i=0; i < track.size(), i++) {
+    // calculate point locations in pixels
+    var pixelsLon = (lon[i+1] - lon[i]) * scaleXY;
+    var pixelsLat = (lat[i+1] - lat[i]) * scaleXY;
+
+    // adjust point locations to a reference point
+    var displayX = pixelsLon + pixelsXRef;
+    var displayY = pixelsLat + pixelsYRef;
+
+    // draw points
+    dc.setColor(...);
+	dc.fillCircle(displayX, displayY, 2);
+}
+
+// add aditional lon/lats and execute the previous for() loop
+...
+
+if(lat != null){
+var lonMax = -180.0;
+var lonMin = 180.0;
+var latMax = -90.0;
+var latMin = 90.0;
+for(var i=0; i < lat.size(); i++) {
+lonMax = (lonMax > lon[i]) ? lonMax : lon[i];
+lonMin = (lonMin < lon[i]) ? lonMin : lon[i];
+latMax = (latMax > lat[i]) ? latMax : lat[i];
+latMin = (latMin < lat[i]) ? latMin : lat[i];
+System.println("lonmax = " + lonMax);
+System.println("latmax = " + latMax);
+System.println("lonmin = " + lonMin);
+System.println("latmin = " + latMin);
+}
+
+var scaleX = dc.getWidth() / (lonMax - lonMin);
+var scaleY = dc.getHeight() / (latMax - latMin);
+var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
+
+dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
+dc.setPenWidth(4);
+for(var i=0; i < (lat.size() - 2); i+=2){
+var pixelsLon = (lon[i+1] - lon[i]) * scaleXY;
+var pixelsLat = (lat[i+1] - lat[i]) * scaleXY;
+
+var displayX = pixelsLon + 120; // screenwidth
+var displayY = pixelsLat + 120; //screenheight
+
+dc.fillCircle(displayX, displayY, 3);
+if (i == 0) {
+var displayXOld = displayX;
+var displayYOld = displayY;
+
+} else {
+var displayXOld = displayX;
+var displayYOld = displayY;
+System.println("dxold and dyold" + displayXOld + displayYOld);
+System.println("dx and dy" + displayX + displayY);
+dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+}
+}}
