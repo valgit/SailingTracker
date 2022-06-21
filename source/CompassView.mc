@@ -22,7 +22,7 @@ class CompassView extends Ui.View {
 	hidden var size_max;
 	
 	var mBoatmodel;
-    var mController;
+    //var mController;
 
  	var _canvas_w;
     var _canvas_h;

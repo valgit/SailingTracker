@@ -19,6 +19,16 @@ class breadCrumb {
     hidden var _flon;
     hidden var _lastTime;
 
+    const EARTHRADIUS = 6371000.0d;  // m
+    var scaleDistDeg = (EARTHRADIUS * Math.PI) / 180.0d;  // m/deg
+
+    // define maximum trace length in m to display
+    // either with hard coding or by user settings
+    // this means only the last 1000m are inside the display 
+    // the other points are outside and therefore not visible
+    const totalTraceLen = 1000.0;
+    var totalTraceDeg = traceLen / scaleDistDeg;  // deg/1000m
+
     function initialize() {    
     }
     
@@ -61,11 +71,35 @@ class breadCrumb {
 
     function drawBreadcrumb(dc) {
         System.println("drawBreadcrumb - in");
+        // overide max with totalTraceDeg if needed
+        // scale the geographical size to the display size
+        var scaleX = dc.getWidth() / (lonMax - lonMin);
+        var scaleY = dc.getHeight() / (latMax - latMin);
+        var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
+
         System.println("num point : " + _lastpt);
         var maxpt = _lastpt -1;
         for(var i=0; i < maxpt; i+=1) {
+            // calculate point locations in pixels
+            var pixelsLon = (lon[i+1] - lon[i]) * scaleXY;
+            var pixelsLat = (lat[i+1] - lat[i]) * scaleXY;
+
+            // adjust point locations to a reference point
+            var displayY = pixelsLat + pixelsYRef;
+            var displayX = pixelsLon + pixelsXRef;
+
             System.println("pt : " + _lat[i] + "," + _lon[i]);
+            /*
+            // draw points      
+            var displayXOld = displayX;
+            var displayYOld = displayY;
+            System.println("dxold and dyold" + displayXOld + displayYOld);
+            System.println("dx and dy" + displayX + displayY);
+            dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+            */
         }
         System.println("drawBreadcrumb - out");
     }
+
+    
 }

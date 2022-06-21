@@ -71,6 +71,8 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         System.println("SailingTrackerDelegate - onNextPage");
         // handle it like simple touch
         //mController.onSelect();
+        // push countdownView
+        //WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_RIGHT);
         return false; // let handle it !
     }
 
