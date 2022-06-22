@@ -27,7 +27,8 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
 		// return false so that the InputDelegate method gets called. this will
         // allow us to know what kind of input cause the back behavior
         //return false;  // allow InputDelegate function to be called
-        return true; // disable onBack
+        mBoatmodel.newRace();
+        return true; // disable onBack, we have handle it !
     }
     
      // Input handling of start/stop is mapped to onSelect
@@ -50,15 +51,7 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         	mBoatmodel.StartStopRecording();
             //return onSelect();
             return true; // we handle it !
-        }
-        /*
-        if (key.getKey() == WatchUi.KEY_ENTER) {            
-            System.println("Key pressed: ENTER");            
-            // Pass the input to the controller
-        	mBoatmodel.StartStopRecording();
-        	//WatchUi.pushView(new Rez.Menus.MainMenu(), new sailingMenuDelegate(), WatchUi.SLIDE_UP);
-            return true;
-        }*/
+        }        
 
         // KEY_LAP KEY_START
         //System.println("Key pressed: " + key.getKey() );
@@ -72,8 +65,9 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         // handle it like simple touch
         //mController.onSelect();
         // push countdownView
-        //WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_RIGHT);
-        return false; // let handle it !
+        WatchUi.pushView(new countdownView(mBoatmodel), new countdownDelegate(mBoatmodel), WatchUi.SLIDE_DOWN);
+        //return false; // let handle it !
+        return true; // we handle it !
     }
 
     function onPreviousPage() as Boolean {
@@ -120,7 +114,7 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;  // allow InputDelegate function to be called
     }
 */
-    
+    /*
     // Screen Tap
     function onTap(evt) {
     	//System.println("dlg: onTap : " + evt.getType() );
@@ -147,5 +141,5 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;  // allow InputDelegate function to be called
     }
     
-
+*/
 }

@@ -36,10 +36,7 @@ class countdownView extends Ui.View {
     function onLayout(dc as Dc) as Void {
 		_canvas_w = dc.getWidth();
         _canvas_h = dc.getHeight();      
-
-    	size_max = _canvas_w > _canvas_h ? _canvas_h : _canvas_w;
-    	center_x = _canvas_w / 2;
-		center_y = _canvas_h / 2;
+    	    	
     }
     
 	function onUpdate(dc as Dc) as Void {  

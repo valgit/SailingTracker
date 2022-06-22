@@ -95,6 +95,7 @@ class boatModel {
     
     hidden var _twd = 0; // 292 test ONO DK 0;
     hidden var _vmg = 0;
+    hidden var _oldVmg = 0;
 
     // FIT Contributions variables
     hidden const MAX_SPEED_FIELD_ID = 1;   // speed max
@@ -339,7 +340,11 @@ class boatModel {
         var _twa = Abs(_twd - _bearingDegree);
         _vmg = _speedKnot * Math.cos( Math.toRadians(_twa) );
         //System.println("VMG is : " + _vmg);
-        mRecVMGField.setData(_vmg);
+        // update if different
+        if ((_vmg - _oldVmg ) > 0.1 ) {
+            mRecVMGField.setData(_vmg);
+        }
+        _oldVmg = _vmg;
 
         _location = positionInfo.position;
 
@@ -405,5 +410,12 @@ class boatModel {
     function drawBread(dc)
     {
         breadcrumb.drawBreadcrumb(dc);
+    }
+
+    /*
+     * add a new lap for starting a race ?
+     */
+    function newRace() {
+        mSession.addLap();
     }
 }
