@@ -239,3 +239,13 @@ System.println("dx and dy" + displayX + displayY);
 dc.drawLine(displayXOld, displayYOld, displayX, displayY);
 }
 }}
+
+
+JavaScript:
+(all angles in radians)	
+
+const y = Math.sin(λ2-λ1) * Math.cos(φ2);
+const x = Math.cos(φ1)*Math.sin(φ2) -
+          Math.sin(φ1)*Math.cos(φ2)*Math.cos(λ2-λ1);
+const θ = Math.atan2(y, x);
+const brng = (θ*180/Math.PI + 360) % 360; // in degrees

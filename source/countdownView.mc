@@ -15,6 +15,7 @@ class countdownView extends Ui.View {
 
  	var _canvas_w;
     var _canvas_h;
+    var _timerValue = 0;
 
 	function initialize(boat) {
 		View.initialize();
@@ -23,6 +24,8 @@ class countdownView extends Ui.View {
         mBoatmodel = boat;
         //mController = Application.getApp().controller;
         //App.getApp().getDefaultTimerCount();
+        _timerValue = Application.getApp().getProperty("defaultTimer");         
+
 	}
         
     function onShow() as Void {
@@ -42,6 +45,9 @@ class countdownView extends Ui.View {
 	function onUpdate(dc as Dc) as Void {  
 
 	    dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
-        dc.clear();  
+        dc.clear();
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, _timerValue, Graphics.TEXT_JUSTIFY_CENTER);
     }
 }
