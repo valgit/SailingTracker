@@ -105,6 +105,10 @@ https://www.hisse-et-oh.com/sailing/decodage-du-protocole-micronet-et-envoi-a-qt
 
 I use the button like in native apps for start/pause/save/discard.  For lap, I use the right swipe, as is used for back, as most other devices use onBack() for a lap (those that don't have a separate lap button).  Catching the double tap is an app can be a bit tricky.
 
+I use onBack (on watches) to also do a manual lap (as that again in common with native apps), and return "true", but when I'm at a point to exit the app, return false, so the app exits. Again, like native apps.
+
+ onSelect, which is a screen tap on a va3 and other touch devices.
+ 
 
 var pair = Application.Storage.getValue(“points”);
 if(pair==null){pair = new [0];}
