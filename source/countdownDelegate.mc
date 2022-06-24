@@ -10,18 +10,18 @@ import Toybox.Attention;
  * maybe prev/next to adjust timer ?
  */
 class countdownDelegate extends WatchUi.BehaviorDelegate {
-    hidden var mBoatmodel;    
+    hidden var _countTimer;    
 
-    function initialize(boat) {
+    function initialize(timer) {
         BehaviorDelegate.initialize();
-        mBoatmodel = boat;
+        _countTimer = timer;
     }
 
     // no menu ?    
     /*
     function onMenu() as Boolean {
         System.println("countdownDelegate - onMenu");
-        //WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(mBoatmodel), WatchUi.SLIDE_UP);
+        //WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingTrackerMenuDelegate(_countTimer), WatchUi.SLIDE_UP);
         return false;
     }
     */
@@ -29,6 +29,7 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
      // Handle the back action    
     function onBack() {     
         System.println("countdownDelegate - onBack");
+        _countTimer.endTimer();
 		// return false so that the InputDelegate method gets called. this will
         // allow us to know what kind of input cause the back behavior
         //return false;  // allow InputDelegate function to be called
@@ -52,10 +53,13 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
        	//if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
         if (key.getKey() == WatchUi.KEY_ENTER || WatchUi.KEY_START == key.getKey() ) {
             // Pass the input to the controller
-            System.println("start counter");
-            var heading_deg  = getHeading() * 57.29; 
-            //TODO: may need to reverse ?
-            //mBoatmodel.setWind(heading_deg);
+            if (_countTimer.isTimerRunning()) {
+                _countTimer.endTimer();
+            } else {                
+                System.println("start counter");
+                _countTimer.startTimer();
+            }
+            
             if (Attention has :vibrate) {
                 var vibe = [new Attention.VibeProfile(  50, 100 )];
                 Attention.vibrate(vibe);
@@ -73,27 +77,22 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
 
     function onNextPage() {
         System.println("countdownDelegate - onNextPage");
+        _countTimer.fixTimeUp();
         // handle it like simple touch
         //mController.onSelect();
-        return false; // let handle it !
+        return true; // let handle it !
     }
 
     function onPreviousPage() {
         System.println("countdownDelegate -  onPreviousPage");
-        return false;
+        _countTimer.fixTimeDown();
+        return true;
     }
 
     // hold to reset timer
     function onHold(evt) {
 		System.println("countdownDelegate - onHold");
-		/*
-        if (Attention has :vibrate) {
-        	var vibe = [new Attention.VibeProfile(  50, 100 )];
-       	 	Attention.vibrate(vibe);
-       	}
-        //TODO: resetTimer();
-        return true;
-        */
+        _countTimer.resetTimer();		
         return false;
     }
     
