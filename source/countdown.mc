@@ -2,7 +2,7 @@
  * handle the countdown timer global model
  */
 
-import Toybox.System;
+//import Toybox.System;
 
 class Countdown {
     hidden var _defaultTime;
@@ -26,7 +26,7 @@ class Countdown {
             return;
         }
         _secLeft = (_secLeft  + 60);
-        System.println("fixTimeUp: " + (_secLeft / 60));        
+        //System.println("fixTimeUp: " + (_secLeft / 60));        
     }
 
     // remove 1 min to current
@@ -35,7 +35,7 @@ class Countdown {
             return;
         }
          _secLeft = (_secLeft - 60);
-        System.println("fixTimeDown: " + _secLeft / 60);        
+        //System.println("fixTimeDown: " + _secLeft / 60);        
     }
 
     function endTimer() {        

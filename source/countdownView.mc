@@ -20,11 +20,11 @@ class countdownView extends Ui.View {
     hidden var _countTimer = null;
     hidden var vibeData;
 
-	function initialize(timer) {
+	function initialize(timer,boat) {
 		View.initialize();
         
         // Get the model and controller from the Application
-        //mBoatmodel = boat;
+        mBoatmodel = boat;
         //mController = Application.getApp().controller;
         //App.getApp().getDefaultTimerCount();
         //_timerValue = Application.getApp().getProperty("defaultTimer");         
@@ -123,13 +123,11 @@ class countdownView extends Ui.View {
                 
             }
             _countTimer.updateTimer();
-        } else {
-            //app.get().addLap();
-            //raceStartTime = Time.now();
+        } else {            
             _countTimer.endTimer();            
             ring();                    
             // TODO: maybe call on a timer ...
-            // add a lap ?
+            mBoatmodel.newRace();
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         }
     }

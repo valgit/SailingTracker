@@ -37,6 +37,8 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
     // If onSelect returns false, then onTap should get called
     function onSelect() as Boolean {
         System.println("SailingTrackerDelegate - onSelect");  
+        // for now create a new/end lap
+        mBoatmodel.newRace();
         return false; // allow InputDelegate function to be called
         //return true;
     }
@@ -65,9 +67,10 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         // handle it like simple touch
         //mController.onSelect();
         // push countdownView
+        //TODO: checlk memory usage ?
         var _timerValue = Application.getApp().getProperty("defaultTimer");         
         var _countTimer = new Countdown(_timerValue); //TODO: memory handling ?
-        WatchUi.pushView(new countdownView(_countTimer), new countdownDelegate(_countTimer), WatchUi.SLIDE_DOWN);
+        WatchUi.pushView(new countdownView(_countTimer,mBoatmodel), new countdownDelegate(_countTimer), WatchUi.SLIDE_DOWN);
         //return false; // let handle it !
         return true; // we handle it !
     }

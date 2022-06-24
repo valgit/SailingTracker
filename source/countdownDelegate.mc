@@ -28,7 +28,7 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
     
      // Handle the back action    
     function onBack() {     
-        System.println("countdownDelegate - onBack");
+        //System.println("countdownDelegate - onBack");
         _countTimer.endTimer();
 		// return false so that the InputDelegate method gets called. this will
         // allow us to know what kind of input cause the back behavior
@@ -41,7 +41,7 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
     // The onSelect() method should get called when you tap the screen of the vivoactive_hr. 
     // If onSelect returns false, then onTap should get called
     function onSelect() {
-        System.println("countdownDelegate - onSelect");  
+        //System.println("countdownDelegate - onSelect");  
         return false; // allow InputDelegate function to be called
         //return true;
     }
@@ -56,7 +56,7 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
             if (_countTimer.isTimerRunning()) {
                 _countTimer.endTimer();
             } else {                
-                System.println("start counter");
+                //System.println("start counter");
                 _countTimer.startTimer();
             }
             
@@ -76,7 +76,7 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() {
-        System.println("countdownDelegate - onNextPage");
+        //System.println("countdownDelegate - onNextPage");
         _countTimer.fixTimeUp();
         // handle it like simple touch
         //mController.onSelect();
@@ -84,14 +84,14 @@ class countdownDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onPreviousPage() {
-        System.println("countdownDelegate -  onPreviousPage");
+        //System.println("countdownDelegate -  onPreviousPage");
         _countTimer.fixTimeDown();
         return true;
     }
 
     // hold to reset timer
     function onHold(evt) {
-		System.println("countdownDelegate - onHold");
+		//System.println("countdownDelegate - onHold");
         _countTimer.resetTimer();		
         return false;
     }
