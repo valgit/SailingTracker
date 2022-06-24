@@ -47,6 +47,10 @@ class Countdown {
         _secLeft = _defaultTime * 60;
     }
 
+    function getDefaultTimer() {
+        return _defaultTime * 60;
+    }
+
     // check if timer is running
     function isTimerComplete() {
         return _timerComplete;

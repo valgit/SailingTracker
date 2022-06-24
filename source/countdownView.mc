@@ -15,9 +15,11 @@ class countdownView extends Ui.View {
 
  	hidden var _canvas_w;
     hidden var _canvas_h;
+    hidden var _cw2;
+    hidden var _ch2;
     hidden var _timerValue = 0;
 
-    hidden var _countTimer = null;
+    hidden var _countTimer = null;    
     hidden var vibeData;
 
 	function initialize(timer,boat) {
@@ -29,6 +31,7 @@ class countdownView extends Ui.View {
         //App.getApp().getDefaultTimerCount();
         //_timerValue = Application.getApp().getProperty("defaultTimer");         
         _countTimer = timer; // new Countdown(_timerValue);
+        _timerValue = _countTimer.getDefaultTimer();
 
         // create vibrate profile
         if (Attention has :vibrate) {
@@ -50,7 +53,9 @@ class countdownView extends Ui.View {
     
     function onLayout(dc as Dc) as Void {
 		_canvas_w = dc.getWidth();
+        _cw2 = _canvas_w * 0.5;
         _canvas_h = dc.getHeight();      
+        _ch2 = _canvas_h * 0.5;
     	    	
     }
     
@@ -63,9 +68,9 @@ class countdownView extends Ui.View {
         //format
         var countDownStr;
         if(min > 0) {
-            countDownStr = min.format("%d") + ":" + sec.format("%02d");
+            countDownStr = min.format("%02d") + ":" + sec.format("%02d");
         }else {
-            countDownStr = sec.format("%d");
+            countDownStr = sec.format("%02d");
         }
         return countDownStr;
     }
@@ -74,31 +79,42 @@ class countdownView extends Ui.View {
         
         dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
         dc.clear();
+        
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-
         var strTime = formatTimer();
         if (_countTimer.isTimerRunning()) {
             updateTime();
             // show progress
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
-            dc.drawText( _canvas_w * 0.50 ,(_canvas_h * 0.50) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
+            dc.drawText( _cw2 ,_ch2  - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
                 Graphics.FONT_NUMBER_THAI_HOT, 
                 strTime, 
                 Gfx.TEXT_JUSTIFY_CENTER );
-        } else
-        if (_countTimer.isTimerComplete()) {            
-            dc.drawText( _canvas_w * 0.50 ,(_canvas_h * 0.50) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
-                Graphics.FONT_NUMBER_THAI_HOT, 
-                "00:00", 
-                Gfx.TEXT_JUSTIFY_CENTER );
-        } else {       
             
-            dc.drawText( _canvas_w * 0.50 ,(_canvas_h * 0.50) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
+        } else {                    
+            dc.drawText( _cw2 ,_ch2 - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
                 Graphics.FONT_NUMBER_THAI_HOT, 
-                "99:99", 
+                strTime, 
                 Gfx.TEXT_JUSTIFY_CENTER );
+        
         }
+        drawCircle(dc);
     }
+
+    function drawCircle(dc) {
+        var handWidth = _canvas_w;
+        var position = _countTimer.secondsLeft();
+        var _r = _cw2 - (handWidth / 18);
+        dc.setPenWidth(handWidth / 18);
+        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
+        var end = (position * 360) / _timerValue; 
+        //System.println("pos is : " + position + " end at : "+end);
+        //dc.drawArc(handWidth / 6.2, handWidth / 2.47, handWidth / 10.5, 1, start + 90, end + 90);
+        dc.drawArc(_cw2 ,_ch2, _r , Graphics.ARC_CLOCKWISE, 0, end );
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawArc(_cw2 ,_ch2, _r  , Graphics.ARC_CLOCKWISE, end, 360 );        
+    }
+
 
     function ring() {
         if (Attention has :vibrate) {            
