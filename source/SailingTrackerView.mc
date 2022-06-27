@@ -56,7 +56,10 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         // time
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var clockTime = System.getClockTime();
-        var time = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+        var time = clockTime.hour.format("%02d") + ":" + 
+            clockTime.min.format("%02d") + ":" +
+            clockTime.sec.format("%02d");
+        //TODO: check pos
         dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
 
         //System.println("TrackingView - update");
