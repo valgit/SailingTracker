@@ -249,3 +249,19 @@ const x = Math.cos(φ1)*Math.sin(φ2) -
           Math.sin(φ1)*Math.cos(φ2)*Math.cos(λ2-λ1);
 const θ = Math.atan2(y, x);
 const brng = (θ*180/Math.PI + 360) % 360; // in degrees
+
+pour le chrono : sur le countdown : a la fin :start time, et afficher le running time par default...
+
+your current heading is
+different from your average heading over the last 10 seconds
+Assuming that you are
+watching your sails and always steering the best apparent wind angle, this will show you
+wind shifts. If you suddenly are steering a 10 degrees higher course, iRegatta will show
+this as an 10 degrees lift in the lift indicator.
+
+
+Small insignificant changes in course can be ignored by setting the “Lift threshold” in the
+GPS section of iRegatta settings. Setting this to 5° will ignore shifts less than 5
+degrees. 
+
+twd : par lap
