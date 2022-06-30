@@ -120,7 +120,8 @@ class boatModel {
     hidden var mSession;
 
     hidden var breadcrumb; //TODO
-
+    hidden var _legStart;
+    
       // Initialize sensor readings
     function initialize() {    
     	//System.println("model init"); 
@@ -177,6 +178,7 @@ class boatModel {
             {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>WatchUi.loadResource(Rez.Strings.sail_knots	)}
             );
 
+        //TODO: make it a lap data
         mSessTWDField = mSession.createField(WatchUi.loadResource(Rez.Strings.sail_twd),
             TWD_FIELD_ID, 
             FitContributor.DATA_TYPE_FLOAT, 
@@ -290,16 +292,6 @@ class boatModel {
 	function getTotalTime() {
 		return elapsedTime;
 	}	
-	
-    /*
-    function getRaceTime() {        
-        var now = System.getTimer(); //Time.now();
-        var raceTime = now - _legStart; //.subtract(_legStart);
-        var raceTimeStr = secToTimeStr(raceTime/1000); // secToStr(raceTime);// .value());
-        //System.println(raceTimeStr);
-        return raceTimeStr;
-    }
-    */
 
 	function toFixed(value, scale) {
         return ((value * scale) + 0.5).toNumber();
@@ -416,6 +408,28 @@ class boatModel {
      * add a new lap for starting a race ?
      */
     function newRace() {
+        _legStart = System.getTimer(); 
         mSession.addLap();
+    }
+
+    //
+    // race time ....
+    //
+    // get current lap time, from last start timer
+    function getRaceTime() {        
+        var now = System.getTimer(); //Time.now();
+        var race = now - _legStart; //.subtract(_legStart);
+        var secs = race /1000;
+
+        var hr = secs/(3600);
+        var min = (secs-(hr*3600))/60;
+        var sec = secs%60;
+        var str;
+        if (hr > 0) {
+            str = hr.format("%02d") + ":" + min.format("%02d") + ":" + sec.format("%02d");
+        } else {
+            str = min.format("%02d") + ":" + sec.format("%02d");
+        }
+        return str;
     }
 }
