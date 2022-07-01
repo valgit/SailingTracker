@@ -121,7 +121,7 @@ class boatModel {
 
     hidden var breadcrumb; //TODO
     hidden var _legStart;
-    
+
       // Initialize sensor readings
     function initialize() {    
     	//System.println("model init"); 
@@ -426,9 +426,9 @@ class boatModel {
         var sec = secs%60;
         var str;
         if (hr > 0) {
-            str = hr.format("%02d") + ":" + min.format("%02d") + ":" + sec.format("%02d");
+            str = hr.format("%02d") + ":" + min.format("%02d") + "m"; // ":" + sec.format("%02d");
         } else {
-            str = min.format("%02d") + ":" + sec.format("%02d");
+            str = min.format("%02d") + ":" + sec.format("%02d") + "s";
         }
         return str;
     }

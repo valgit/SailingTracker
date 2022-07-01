@@ -87,7 +87,7 @@ class countdownView extends Ui.View {
         clockTime.min.format("%02d") + ":" +
         clockTime.sec.format("%02d"); 
         dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.25), Graphics.FONT_MEDIUM, curTime, Graphics.TEXT_JUSTIFY_CENTER);
-        System.println("race time : " + mBoatmodel.getRaceTime());
+        
         var strTime = formatTimer();
         if (_countTimer.isTimerRunning()) {
             updateTime();
@@ -98,7 +98,12 @@ class countdownView extends Ui.View {
                 strTime, 
                 Gfx.TEXT_JUSTIFY_CENTER );
             
-        } else {    
+        } else {
+            // in race display the racing time
+            if (_countTimer.isTimerComplete()) {
+                strTime = mBoatmodel.getRaceTime();
+                System.println("race time : " + strTime);
+            }
             dc.drawText( _cw2 ,_ch2 - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
                 Graphics.FONT_NUMBER_THAI_HOT, 
                 strTime, 
