@@ -8,7 +8,7 @@
 </strings>
 
 <properties>
-    <property id="appVersion" type="string">0.0.1</property>
+    <property id="appVersion" type="string">0.1.1</property>
     <property id="defaultTimer" type="number">300</property>
 </properties>
 <settings>
