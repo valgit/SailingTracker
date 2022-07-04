@@ -75,6 +75,19 @@ class countdownView extends Ui.View {
         return countDownStr;
     }
 
+    function formatTime(secs) {
+        var hr = secs/(3600);
+        var min = (secs-(hr*3600))/60;
+        var sec = secs%60;
+        var str;
+        if (hr > 0) {
+            str = hr.format("%02d") + ":" + min.format("%02d"); // ":" + sec.format("%02d");
+        } else {
+            str = min.format("%02d") + ":" + sec.format("%02d");
+        }
+        return str;
+    }
+
 	function onUpdate(dc as Dc) as Void {  
         
         dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
@@ -101,14 +114,19 @@ class countdownView extends Ui.View {
         } else {
             // in race display the racing time
             if (_countTimer.isTimerComplete()) {
-                strTime = mBoatmodel.getRaceTime();
-                System.println("race time : " + strTime);
+                var racetime = mBoatmodel.getRaceTime();
+                strTime = formatTime(racetime);
+                System.println("race time : " + strTime + "sec" + racetime);
+                dc.drawText( _cw2 ,_ch2 - (Gfx.getFontAscent(Gfx.FONT_MEDIUM) / 2),
+                    Graphics.FONT_MEDIUM, 
+                    strTime, 
+                    Gfx.TEXT_JUSTIFY_CENTER );
+            } else {
+                dc.drawText( _cw2 ,_ch2 - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
+                    Graphics.FONT_NUMBER_THAI_HOT, 
+                    strTime, 
+                    Gfx.TEXT_JUSTIFY_CENTER );
             }
-            dc.drawText( _cw2 ,_ch2 - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2),
-                Graphics.FONT_NUMBER_THAI_HOT, 
-                strTime, 
-                Gfx.TEXT_JUSTIFY_CENTER );
-        
         }
         drawCircle(dc);
     }

@@ -68,8 +68,9 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         //mController.onSelect();
         // push countdownView
         //TODO: checlk memory usage ?
-        var _timerValue = Application.getApp().getProperty("defaultTimer");         
-        var _countTimer = new Countdown(_timerValue); //TODO: memory handling ?
+        //var _timerValue = Application.getApp().getProperty("defaultTimer");         
+        //var _countTimer = new Countdown(_timerValue); //TODO: memory handling ?
+        var _countTimer = Application.getApp().mCountTimer;
         WatchUi.pushView(new countdownView(_countTimer,mBoatmodel), new countdownDelegate(_countTimer), WatchUi.SLIDE_DOWN);
         //return false; // let handle it !
         return true; // we handle it !

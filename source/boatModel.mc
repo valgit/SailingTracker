@@ -420,16 +420,7 @@ class boatModel {
         var now = System.getTimer(); //Time.now();
         var race = now - _legStart; //.subtract(_legStart);
         var secs = race /1000;
-
-        var hr = secs/(3600);
-        var min = (secs-(hr*3600))/60;
-        var sec = secs%60;
-        var str;
-        if (hr > 0) {
-            str = hr.format("%02d") + ":" + min.format("%02d") + "m"; // ":" + sec.format("%02d");
-        } else {
-            str = min.format("%02d") + ":" + sec.format("%02d") + "s";
-        }
-        return str;
+   
+        return secs;
     }
 }

@@ -44,7 +44,13 @@ class Countdown {
     }
 
     function resetTimer() {
+        /*
+        if (_timerRunning == false) {
+            return;
+        }
+        */
         _secLeft = _defaultTime * 60;
+        _timerComplete = false;
     }
 
     function getDefaultTimer() {
@@ -76,13 +82,10 @@ class Countdown {
     	_secLeft -= 1;
     }
 
-
     // return the curren value in seconds
     function getCurrentTimer() {
         return _secLeft;
         //return [secLeft,color];
     }
-  
-    
-    
+        
 }

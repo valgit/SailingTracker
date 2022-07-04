@@ -8,10 +8,14 @@ class SailingTrackerApp extends Application.AppBase {
     var mSupportsRecording;
     var mTimer;
     var mBoatmodel;
+    var mCountTimer;
+    // hidden var _timerValue
 
     function initialize() {
         AppBase.initialize();
         mBoatmodel = new boatModel();
+        var _timerValue = Application.getApp().getProperty("defaultTimer");         
+        mCountTimer = new Countdown(_timerValue); //TODO: memory handling ?
     }
 
     // onStart() is called on application start up
@@ -64,6 +68,7 @@ class SailingTrackerApp extends Application.AppBase {
         WatchUi.requestUpdate();
         // may call other things here ?
     }
+    
 }
 
 function getApp() as SailingTrackerApp {
