@@ -265,3 +265,26 @@ GPS section of iRegatta settings. Setting this to 5° will ignore shifts less th
 degrees. 
 
 twd : par lap
+
+ee0b30c4-67f6-4d1c-8543-c1fb1cf228ec
+
+
+Lap:
+   name: Auto Start Line
+   type: Start
+   lat: 603092800
+   lon: 36079072
+   lat2: 603071424
+   lon2: 36082576
+   twd: 264
+
+
+   Lap:
+   name: Auto Finish Line
+   type: Finish
+   lat: 603092800
+   lon: 36079072
+   lat2: 603071424
+   lon2: 36082576
+   twd: 264
+   
