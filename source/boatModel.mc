@@ -108,8 +108,8 @@ class boatModel {
     hidden var mRecVMGField = null;
 
     const MAX_SPEED_INTERVAL = 3;
-    const AVG_SPEED_INTERVAL = 10;
-    const AVG_BEARING_INTERVAL = 10;
+    //const AVG_SPEED_INTERVAL = 10;
+    //const AVG_BEARING_INTERVAL = 10;
     const METERS_PER_NAUTICAL_MILE = 1852;
     const MS_TO_KNOT = 1.9438444924574;
 
@@ -122,6 +122,9 @@ class boatModel {
     hidden var breadcrumb; //TODO
     hidden var _legStart;
 
+    // 10sec moving average
+    //var heading_avg;
+
       // Initialize sensor readings
     function initialize() {    
     	//System.println("model init"); 
@@ -131,7 +134,8 @@ class boatModel {
 		        if ((mSession == null) || (mSession.isRecording() == false)) {
 		        	mSession = ActivityRecording.createSession(
 		        	 	{
-                            // TODO: for f235 numerical value
+                            // FIXME: check SUB_SPORT ? maybe sail_race 65 ?
+                            // TODO: for f235 numerical value 32
 		        	 	    // :name=>"diving_"+Time.now().value(), // set session name
 		  				   :name=>"Sailing", // +Time.now().value(),      // set session name
 		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
@@ -149,6 +153,8 @@ class boatModel {
 
                 // need better place
                 breadcrumb = new breadCrumb();
+
+                //heading_avg = new averager(10);
 		   }
     }
 
@@ -313,7 +319,7 @@ class boatModel {
         //
         _avgSpeedSum = _avgSpeedSum - _avgSpeedValues[_avgSpeedIterator] + _speedKnot;
         _avgSpeedValues[_avgSpeedIterator] = _speedKnot;
-        _avgSpeedIterator = (_avgSpeedIterator + 1) % AVG_SPEED_INTERVAL;
+        _avgSpeedIterator = (_avgSpeedIterator + 1) % 10; // AVG_SPEED_INTERVAL;
 
         // moving avg bearing
         //
@@ -324,7 +330,10 @@ class boatModel {
         _cosBearingSum = _cosBearingSum - _avgCosValues[_avgBearingIterator] + cosBearing;
         _avgCosValues[_avgBearingIterator] = cosBearing;
         _avgBearingDegree = (Math.toDegrees(Math.atan2(_sinBearingSum, _cosBearingSum)) + 360).toNumber() % 360;
-        _avgBearingIterator = (_avgBearingIterator + 1) % AVG_BEARING_INTERVAL;
+        _avgBearingIterator = (_avgBearingIterator + 1) % 10; // AVG_BEARING_INTERVAL;
+
+
+        //heading_avg.put(positionInfo.heading);
 
         // vmg
         //
@@ -354,7 +363,7 @@ class boatModel {
         gpsInfo.Accuracy = _accuracy;
         gpsInfo.SpeedKnot = _speedKnot;
         gpsInfo.BearingDegree = _bearingDegree;
-        gpsInfo.AvgSpeedKnot = _avgSpeedSum / AVG_SPEED_INTERVAL;
+        gpsInfo.AvgSpeedKnot = _avgSpeedSum / 10; //AVG_SPEED_INTERVAL;
         gpsInfo.MaxSpeedKnot = _maxSpeedKnot;
         if (mSession != null) {
             gpsInfo.IsRecording = mSession.isRecording();
@@ -362,7 +371,7 @@ class boatModel {
             gpsInfo.IsRecording = false;
         }
         
-        gpsInfo.AvgBearingDegree = _avgBearingDegree;
+        gpsInfo.AvgBearingDegree = _avgBearingDegree;        
 
         var activity = Activity.getActivityInfo();
         // null if not recording ...

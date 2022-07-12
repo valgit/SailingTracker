@@ -95,6 +95,16 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         var headingStr = formatHeading(info.BearingDegree);
         //System.println("cur speed " + knots +" kts - heading : "+headingStr );
         
+        // TODO : check for deviation
+        System.println("HDG: avg : "+ info.AvgBearingDegree + " vs HDG: " + info.BearingDegree);
+        var lift = info.BearingDegree-info.AvgBearingDegree;
+        if ((lift>0) && (lift>10)) {
+            System.println("rotation ?" + lift);
+        }
+        if ((lift<0) && (-lift>10)) {
+            System.println("rotation 2?" + lift);
+        }        
+
         //  show VMG ?
         //System.println("TWD is : " + info.Twd);
         //var twd = mBoatmodel.getWind();

@@ -288,3 +288,6 @@ Lap:
    lon2: 36082576
    twd: 264
    
+   #compile :
+   C:\Program Files\RedHat\java-11-openjdk-11.0.10-1\bin\java.exe -Xms1g -Dfile.encoding=UTF-8 -Dapple.awt.UIElement=true -jar c:\Users\fr20033\AppData\Roaming\Garmin\ConnectIQ\Sdks\connectiq-sdk-win-4.1.4-2022-06-07-f86da2dee\bin\monkeybrains.jar -o c:\perso\workspace\garmin\SailingTracker\bin\SailingTracker.prg -f c:\perso\workspace\garmin\SailingTracker\monkey.jungle -y "C:\perso\workspace\garmin\developer_key.der" -w -d vivoactive3
+   
