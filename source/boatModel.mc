@@ -139,7 +139,7 @@ class boatModel {
 		        	 	    // :name=>"diving_"+Time.now().value(), // set session name
 		  				   :name=>"Sailing", // +Time.now().value(),      // set session name
 		   				   :sport=>ActivityRecording.SPORT_SAILING,        // set sport type
-		  				   :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
+		  				   //TODO: test :subSport=>ActivityRecording.SUB_SPORT_GENERIC//,  // set sub sport type
 		  				   //:sensorLogger => mLogger // add accel logger
 		    			}
 		    
@@ -349,8 +349,8 @@ class boatModel {
 
         _location = positionInfo.position;
 
-        //TODO:
-        //breadcrumb.addPoint(positionInfo);
+        //TODO: call trail
+        breadcrumb.addPoint(positionInfo);
 
     }
 

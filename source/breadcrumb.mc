@@ -53,13 +53,13 @@ class breadCrumb {
         _lat[_lastpt] = _current[0];
         _lon[_lastpt] = _current[1];
 
-         // update min/max
-        /*
-        lonMax = (lonMax > lon[i]) ? lonMax : lon[i];
-        lonMin = (lonMin < lon[i]) ? lonMax : lon[i];
-        latMax = (latMax > lat[i]) ? latMax : lat[i];
-        latMin = (latMin < lat[i]) ? latMax : lat[i];
-        */
+        //TODO: update min/max
+        
+        _lonMax = (_lonMax > _lon[_lastpt]) ? _lonMax : _lon[_lastpt];
+        _lonMin = (_lonMin < _lon[_lastpt]) ? _lonMax : _lon[_lastpt];
+        _latMax = (_latMax > _lat[_lastpt]) ? _latMax : _lat[_lastpt];
+        _latMin = (_latMin < _lat[_lastpt]) ? _latMax : _lat[_lastpt];
+        
 
         _lastpt = _lastpt + 1;
         if (_lastpt > 1024) {
@@ -73,30 +73,46 @@ class breadCrumb {
         System.println("drawBreadcrumb - in");
         // overide max with totalTraceDeg if needed
         // scale the geographical size to the display size
+        System.println(_lonMax + " " + _lonMin);
+        System.println(_latMax + " " + _latMin);
+        if ( (_lonMax - _lonMin)==0 ) {
+            _lonMax = _lonMin +1;
+        }
+        if ( (_latMax - _latMin)==0 ) {
+            _latMax = _latMin +1;
+        }
         var scaleX = dc.getWidth() / (_lonMax - _lonMin);
         var scaleY = dc.getHeight() / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
 
-        System.println("num point : " + _lastpt);
+        System.println("num point : " + _lastpt + " scale: " + scaleXY);
         var maxpt = _lastpt -1;
+        var displayXOld = 0;
+        var displayYOld = 0;
+
         for(var i=0; i < maxpt; i+=1) {
             // calculate point locations in pixels
-            var pixelsLon = (lon[i+1] - lon[i]) * scaleXY;
-            var pixelsLat = (lat[i+1] - lat[i]) * scaleXY;
+            var pixelsLon = (_lon[i+1] - _lon[i]) * scaleXY;
+            var pixelsLat = (_lat[i+1] - _lat[i]) * scaleXY;
 
             // adjust point locations to a reference point
             var displayY = pixelsLat; // + pixelsYRef;
             var displayX = pixelsLon; // + pixelsXRef;
 
             //System.println("pt : " + _lat[i] + "," + _lon[i]);
-            System.println("dx and dy" + displayX + displayY);
+            System.println("dx and dy " + displayX + " ," + displayY);
+
+            dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+            displayXOld = displayX;
+            displayYOld = displayY;
+
             /*
             // draw points      
             var displayXOld = displayX;
             var displayYOld = displayY;
             System.println("dxold and dyold" + displayXOld + displayYOld);
            
-            dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+            
             */
         }
         System.println("drawBreadcrumb - out");

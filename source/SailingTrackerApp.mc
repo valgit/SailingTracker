@@ -15,7 +15,7 @@ class SailingTrackerApp extends Application.AppBase {
         AppBase.initialize();
         mBoatmodel = new boatModel();
         var _timerValue = Application.getApp().getProperty("defaultTimer");         
-        mCountTimer = new Countdown(_timerValue); //TODO: memory handling ?
+        mCountTimer = new Countdown(_timerValue);
     }
 
     // onStart() is called on application start up
