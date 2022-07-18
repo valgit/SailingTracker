@@ -68,7 +68,8 @@ class breadCrumb {
 
              //TRYME: convert to meters
             var pnx = (_current[1] - _flon)*Math.cos(_flat)*111120; //  (.toNumber());
-            var pny = (_flat - _current[0])*111120; //  (.toNumber())
+            //var pny = (_flat - _current[0])*111120; //  (.toNumber())
+            var pny = (_current[0]- _flat)*111120;
             System.println("pos (m) " + pnx + " , " + pny);
 
             _ylon[_lastpt] = pnx;
@@ -137,8 +138,8 @@ class breadCrumb {
         // (so reverse the distance from start !)
         _lonMin = 0.0;
         _latMin = 0;0;
-        _lonMax = 500.0;
-        _latMax = 500.0;
+        _lonMax = 1500.0; // in meter for now
+        _latMax = 1500.0;
         var scaleX = dc.getWidth() / (_lonMax - _lonMin);
         var scaleY = dc.getHeight() / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
@@ -151,7 +152,11 @@ class breadCrumb {
         
         var displayXOld = 0.0;
         var displayYOld = 0.0;
-                
+
+        pixelsXRef =  _xlat[_lastpt-1] * scaleXY ;
+        pixelsYRef =  _ylon[_lastpt-1] * scaleXY ;
+        System.println("last point : " + pixelsXRef + ","+pixelsYRef);
+
         for(var i=0; i < maxpt; i++) {
             // calculate point locations in pixels
             var pixelsLon = (_lon[i+1] - _lon[i]) * scaleXY;
@@ -161,7 +166,7 @@ class breadCrumb {
             var displayY = pixelsLat + pixelsYRef;
             var displayX = pixelsLon + pixelsXRef;
 
-            //System.println("pt : " + _lat[i] + "," + _lon[i]);
+            //System.println("pt " + i + ": " + _xlat[i] + "," + _ylon[i]);
             
 
             //dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
@@ -175,18 +180,21 @@ class breadCrumb {
             } else {
                 //System.println(i+ " dx and dy " + displayX + " ," + displayY);
                 //System.println(i+ " old dx and dy " + displayXOld + " ," + displayYOld);
-                dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+                //FIXME: dc.drawLine(displayXOld, displayYOld, displayX, displayY);
                 displayXOld = displayX;
                 displayYOld = displayY;
             }	             
 
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            dc.drawLine(_xlat[i]*scaleXY+120, _ylon[i]*scaleXY+120, _xlat[i+1]*scaleXY+120, _ylon[i+1]*scaleXY+120);            
+            dc.drawLine(
+                _ylon[i]*scaleXY+120-pixelsYRef,  -_xlat[i]*scaleXY+120-pixelsXRef,  
+                _ylon[i+1]*scaleXY+120-pixelsYRef,-_xlat[i+1]*scaleXY+120-pixelsXRef
+                );            
 
         }
         // draw last point
         dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(displayXOld, displayYOld, 2);
+        dc.fillCircle(120, 120, 2);
 
         System.println("drawBreadcrumb - out");
     }

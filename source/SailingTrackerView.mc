@@ -59,9 +59,9 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
             clockTime.sec.format("%02d");
         //TODO: check pos
         dc.drawText(_canvas_w * 0.50 ,(_canvas_h * 0.05), Graphics.FONT_MEDIUM, time, Graphics.TEXT_JUSTIFY_CENTER);
-        //FIXME: uncomment !
+        
         //System.println("TrackingView - update");
-        //drawSailInfo(dc, _info);
+        drawSailInfo(dc, _info);
 
         var recordingStatus = _info.IsRecording;
         drawRecord(dc,recordingStatus);
