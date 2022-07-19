@@ -12,10 +12,6 @@ class breadCrumb {
     hidden var _lat = new [1024];
     hidden var _lon = new [1024];
 
-    //TODO: testing
-    hidden var _xlat = new [1024];
-    hidden var _ylon = new [1024];
-
     hidden var _lonMax = -180.0;
     hidden var _lonMin =  180.0;
     hidden var _latMax =  -90.0;
@@ -50,38 +46,25 @@ class breadCrumb {
             _flon = _current[1];
             _lastTime = positionInfo.when;
         }
-        /*
-        Pn.x = (Pn.lon -P0.lon)*cos(P0.lat)*111120 (.toNumber())
-        Pn.y = (P0.lat - Pn.lat)*111120 (.toNumber())
-        */
                
         // should be in seconds
         //System.println("time "+ _lastTime.value() + "-> " + positionInfo.when.value()); // positionInfo.when.value());
         var diff = _lastTime.subtract(positionInfo.when); // .value() - _lastTime.value();
-        System.println("time "+ diff.value());
+        //System.println("time "+ diff.value());
         // TODO: keep only 1 point in 60s
         if (diff.value() > 2) {
             System.println("keep point" + _lastpt);
             _lat[_lastpt] = _current[0];
             _lon[_lastpt] = _current[1];
             _lastTime = positionInfo.when;
-
-             //TRYME: convert to meters
-            var pnx = (_current[1] - _flon)*Math.cos(_flat)*111120; //  (.toNumber());
-            //var pny = (_flat - _current[0])*111120; //  (.toNumber())
-            var pny = (_current[0]- _flat)*111120;
-            System.println("pos (m) " + pnx + " , " + pny);
-
-            _ylon[_lastpt] = pnx;
-            _xlat[_lastpt] = pny;
-
+          
             //TODO: update min/max
-            
+            /*
             _lonMax = (_lonMax > _ylon[_lastpt]) ? _lonMax : _ylon[_lastpt];
-            _lonMin = (_lonMin < _ylon[_lastpt]) ? _lonMax : _ylon[_lastpt];
+            _lonMin = (_lonMin < _ylon[_lastpt]) ? _lonMin : _ylon[_lastpt];
             _latMax = (_latMax > _xlat[_lastpt]) ? _latMax : _xlat[_lastpt];
-            _latMin = (_latMin < _xlat[_lastpt]) ? _latMax : _xlat[_lastpt];            
-
+            _latMin = (_latMin < _xlat[_lastpt]) ? _latMin : _xlat[_lastpt];            
+*/
             _lastpt = _lastpt + 1;
             if (_lastpt > _numPoint) {
                 // overflow !!
@@ -93,9 +76,7 @@ class breadCrumb {
 
     function drawBreadcrumb(dc) {
         System.println("drawBreadcrumb - in, len : " + totalTraceDeg);
-        //TODO: adjust by watches to center
-        var pixelsXRef = 120;
-        var pixelsYRef = 120;
+        
 
         var maxpt = _lastpt -1;
         if (maxpt < 3) {
@@ -106,7 +87,7 @@ class breadCrumb {
         // scale the geographical size to the display size
         System.println(_lonMax + " " + _lonMin);
         System.println(_latMax + " " + _latMin);
-        /*
+        
         //TODO: reset bornes
         _lonMax = -180.0;
         _lonMin = 180.0;
@@ -114,65 +95,45 @@ class breadCrumb {
         _latMin = 90.0;
 
         for(var i=0; i < maxpt; i++) {            
-            _lonMax = (_lonMax > _ylon[i]) ? _lonMax : _ylon[i];
-            _lonMin = (_lonMin < _ylon[i]) ? _lonMax : _ylon[i];
-            _latMax = (_latMax > _xlat[i]) ? _latMax : _xlat[i];
-            _latMin = (_latMin < _xlat[i]) ? _latMax : _xlat[i];
+            _lonMax = (_lonMax > _lon[i]) ? _lonMax : _lon[i];
+            _lonMin = (_lonMin < _lon[i]) ? _lonMin : _lon[i];
+            _latMax = (_latMax > _lat[i]) ? _latMax : _lat[i];
+            _latMin = (_latMin < _lat[i]) ? _latMin : _lat[i];
         }
         System.println("lonmax = " + _lonMax);
         System.println("lonmin = " + _lonMin);
         System.println("latmax = " + _latMax);
         System.println("latmin = " + _latMin);
         
-        if ( (_lonMax - _lonMin)==0 ) {
-            _lonMax = _lonMin +0.01;
-        }
-        if ( (_latMax - _latMin)==0 ) {
-            _latMax = _latMin +0.01;
-        }        
-        */
-        //TODO: get correct scaling
-        // may need :
-        // having last meter segment dispalay only
-        // having something centered around last point
-        // (so reverse the distance from start !)
-        _lonMin = 0.0;
-        _latMin = 0;0;
-        _lonMax = 1500.0; // in meter for now
-        _latMax = 1500.0;
+        //TODO: define min screen size ?
         var scaleX = dc.getWidth() / (_lonMax - _lonMin);
         var scaleY = dc.getHeight() / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
         
-        System.println("num point : " + _lastpt + " scale: " + scaleXY);
-        //FIXME: force 0.03333333 (2')
-        //scaleXY = (dc.getHeight() / totalTraceDeg);
-        //System.println(" scale 1000m: " + scaleXY);
-        //scaleXY = scaleY; // TODO: force to check         
+        System.println("num point : " + _lastpt + " scale: " + scaleXY);        
         
         var displayXOld = 0.0;
         var displayYOld = 0.0;
 
-        pixelsXRef =  _xlat[_lastpt-1] * scaleXY ;
-        pixelsYRef =  _ylon[_lastpt-1] * scaleXY ;
+        pixelsXRef =  _lat[_lastpt-1] * scaleXY ;
+        pixelsYRef =  _lon[_lastpt-1] * scaleXY ;
         System.println("last point : " + pixelsXRef + ","+pixelsYRef);
 
+        //FIXME: get correct value
+        //TODO: adjust by watches to center, screen size ?
+        var pixelsXRef = 20;
+        var pixelsYRef = 200;        
+
+        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         for(var i=0; i < maxpt; i++) {
             // calculate point locations in pixels
-            var pixelsLon = (_lon[i+1] - _lon[i]) * scaleXY;
-            var pixelsLat = (_lat[i+1] - _lat[i]) * scaleXY;
+            var pixelsLon = (_lon[i] - _lonMin) * scaleXY;
+            var pixelsLat = (_lat[i] - _latMin) * scaleXY;
 
             // adjust point locations to a reference point
-            var displayY = pixelsLat + pixelsYRef;
+            var displayY = pixelsYRef - pixelsLat;
             var displayX = pixelsLon + pixelsXRef;
-
-            //System.println("pt " + i + ": " + _xlat[i] + "," + _ylon[i]);
             
-
-            //dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
-            //dc.fillCircle(displayX, displayY, 2);
-
-            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
            	// draw lines
             if (i == 0) {
                 displayXOld = displayX;
@@ -180,21 +141,16 @@ class breadCrumb {
             } else {
                 //System.println(i+ " dx and dy " + displayX + " ," + displayY);
                 //System.println(i+ " old dx and dy " + displayXOld + " ," + displayYOld);
-                //FIXME: dc.drawLine(displayXOld, displayYOld, displayX, displayY);
+                dc.drawLine(displayXOld, displayYOld, displayX, displayY);
                 displayXOld = displayX;
                 displayYOld = displayY;
             }	             
-
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            dc.drawLine(
-                _ylon[i]*scaleXY+120-pixelsYRef,  -_xlat[i]*scaleXY+120-pixelsXRef,  
-                _ylon[i+1]*scaleXY+120-pixelsYRef,-_xlat[i+1]*scaleXY+120-pixelsXRef
-                );            
-
+            
         }
-        // draw last point
+        //draw last point        
         dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(120, 120, 2);
+        dc.fillCircle(displayXOld, displayYOld, 2);        
+        //dc.fillCircle(20, 120, 2);
 
         System.println("drawBreadcrumb - out");
     }
