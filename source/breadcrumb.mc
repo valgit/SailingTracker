@@ -52,7 +52,7 @@ class breadCrumb {
         var diff = _lastTime.subtract(positionInfo.when); // .value() - _lastTime.value();
         //System.println("time "+ diff.value());
         // TODO: keep only 1 point in 60s
-        if (diff.value() > 2) {
+        if (diff.value() > 60) {
             System.println("keep point" + _lastpt);
             _lat[_lastpt] = _current[0];
             _lon[_lastpt] = _current[1];
@@ -69,7 +69,9 @@ class breadCrumb {
             if (_lastpt > _numPoint) {
                 // overflow !!
                 System.print("overflowing");
-                _lastpt = 1; // overwrite ?
+                //FIXME: circular buffer ?
+                // remove some point ?
+                _lastpt = _numPoint -1; // overwrite ?
             }
         }
     }
@@ -106,19 +108,26 @@ class breadCrumb {
         System.println("latmin = " + _latMin);
         
         //TODO: define min screen size ?
-        var scaleX = dc.getWidth() / (_lonMax - _lonMin);
-        var scaleY = dc.getHeight() / (_latMax - _latMin);
+        //FIXME: handle round / square
+        var scaleX = (dc.getWidth() -20 )  / (_lonMax - _lonMin);
+        var scaleY = (dc.getHeight() -20)  / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
         
         System.println("num point : " + _lastpt + " scale: " + scaleXY);        
-        
+        if ((scaleXY>20000) && (scaleXY<30000)) {
+            scaleXY = 30000;
+        }
+        if ((scaleXY>30000) && (scaleXY<50000)) {
+            scaleXY = 50000;
+        }
+
         var displayXOld = 0.0;
         var displayYOld = 0.0;
-
+        /*
         pixelsXRef =  _lat[_lastpt-1] * scaleXY ;
         pixelsYRef =  _lon[_lastpt-1] * scaleXY ;
         System.println("last point : " + pixelsXRef + ","+pixelsYRef);
-
+        */
         //FIXME: get correct value
         //TODO: adjust by watches to center, screen size ?
         var pixelsXRef = 20;
@@ -149,6 +158,7 @@ class breadCrumb {
         }
         //draw last point        
         dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
+        System.println("pos dx and dy " + displayXOld + " ," + displayYOld);
         dc.fillCircle(displayXOld, displayYOld, 2);        
         //dc.fillCircle(20, 120, 2);
 
