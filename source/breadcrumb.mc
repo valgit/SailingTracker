@@ -31,6 +31,14 @@ class breadCrumb {
     //const totalTraceLen = 1000.0;
     var totalTraceDeg = 10.0 / scaleDistDeg;  // deg/1000m
 
+    //FIXME: for testing purpose
+    // should be an JSON array ?
+    var _waypts = { 
+        "name" => "jaguar", 
+        "lat" => 51.05996 , 
+        "lon" => 2.36983
+        };
+
     function initialize() {    
     }
     
@@ -109,8 +117,8 @@ class breadCrumb {
         
         //TODO: define min screen size ?
         //FIXME: handle round / square
-        var scaleX = (dc.getWidth() -20 )  / (_lonMax - _lonMin);
-        var scaleY = (dc.getHeight() -20)  / (_latMax - _latMin);
+        var scaleX = (dc.getWidth() - 40 )  / (_lonMax - _lonMin);
+        var scaleY = (dc.getHeight() - 40)  / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
         
         System.println("num point : " + _lastpt + " scale: " + scaleXY);        
@@ -128,10 +136,17 @@ class breadCrumb {
         pixelsYRef =  _lon[_lastpt-1] * scaleXY ;
         System.println("last point : " + pixelsXRef + ","+pixelsYRef);
         */
-        //FIXME: get correct value
+      
         //TODO: adjust by watches to center, screen size ?
         var pixelsXRef = 20;
         var pixelsYRef = 200;        
+
+          //TODO: testing wpts
+        var yref_j =  pixelsYRef - (_waypts["lat"] - _latMin) * scaleXY ;
+        var xref_j = (_waypts["lon"] - _lonMin) * scaleXY + pixelsXRef ;
+        System.println("wp : " + _waypts["name"] + ": "+ xref_j + ","+yref_j);
+
+        //FIXME: get correct value
 
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         for(var i=0; i < maxpt; i++) {
@@ -161,6 +176,9 @@ class breadCrumb {
         System.println("pos dx and dy " + displayXOld + " ," + displayYOld);
         dc.fillCircle(displayXOld, displayYOld, 2);        
         //dc.fillCircle(20, 120, 2);
+        //FIXME: draw waypts
+        dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);        
+        dc.fillCircle(xref_j, yref_j, 2);        
 
         System.println("drawBreadcrumb - out");
     }

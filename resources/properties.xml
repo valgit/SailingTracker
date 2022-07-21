@@ -5,11 +5,14 @@
     <string id="defaultTimer">Default Start Timer</string>
     <string id="timerPrompt">Default Seconds</string>
     <string id="NumberError">Number Error</string>
+    <string id="Breadcrumb">GPS trail</string>
+    <string id="gpstrail">display GPS trail</string>
 </strings>
 
 <properties>
     <property id="appVersion" type="string">0.1.1</property>
     <property id="defaultTimer" type="number">300</property>
+    <property id="breadcrumb" type="boolean">true</property>
 </properties>
 <settings>
 
@@ -19,6 +22,10 @@
     
     <setting propertyKey="@Properties.defaultTimer" title="@Strings.defaultTimer" prompt="@Strings.timerPrompt">
         <settingConfig type="numeric" errorMessage="@Strings.NumberError" />
+    </setting>
+
+    <setting propertyKey="@Properties.breadcrumb" title="@Strings.Breadcrumb" prompt="@Strings.gpstrail">
+        <settingConfig type="boolean"  />
     </setting>
 
 </settings>
