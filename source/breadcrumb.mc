@@ -116,6 +116,7 @@ class breadCrumb {
         System.println(_latMax + " " + _latMin);
         
         //TODO: reset bornes
+        /*
         _lonMax = -180.0;
         _lonMin = 180.0;
         _latMax = -90.0;
@@ -131,7 +132,8 @@ class breadCrumb {
         System.println("lonmin = " + _lonMin);
         System.println("latmax = " + _latMax);
         System.println("latmin = " + _latMin);
-        
+        */
+
         //TODO: define min screen size ?
         //FIXME: handle round / square
         var scaleX = (dc.getWidth() - 40 )  / (_lonMax - _lonMin);
@@ -186,7 +188,7 @@ class breadCrumb {
         }
         //draw last point        
         dc.setColor(Graphics.COLOR_PURPLE, Graphics.COLOR_TRANSPARENT);
-        System.println("pos dx and dy " + displayXOld + " ," + displayYOld);
+        //System.println("pos dx and dy " + displayXOld + " ," + displayYOld);
         dc.fillCircle(displayXOld, displayYOld, 2);        
         //dc.fillCircle(20, 120, 2);
   
@@ -195,7 +197,7 @@ class breadCrumb {
         for(var i=0; i < poiList.size(); i++) {
             var yref_j =  pixelsYRef - (poiList[i]["lat"] - _latMin) * scaleXY ;
             var xref_j = (poiList[i]["lon"] - _lonMin) * scaleXY + pixelsXRef ;
-            System.println("wp : " + poiList[i]["name"] + ": "+ xref_j + ","+yref_j);
+            //System.println("wp : " + poiList[i]["name"] + ": "+ xref_j + ","+yref_j);
             //FIXME: draw waypts            
             dc.fillCircle(xref_j, yref_j, 2);        
         }
