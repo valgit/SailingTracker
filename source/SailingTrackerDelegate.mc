@@ -120,6 +120,21 @@ class SailingTrackerDelegate extends WatchUi.BehaviorDelegate {
         return false;  // allow InputDelegate function to be called
     }
 */
+    //TODO: test the tap....
+    function onTap(evt) {
+    	//System.println("dlg: onTap : " + evt.getType() );
+        System.println("SailingTrackerDelegate - onTap");
+
+        var now = System.getTimer();
+        
+        var _info = mBoatmodel.GetBoatInfo();
+        System.println("Gybe HDG: " + _info.BearingDegree + "speed" + _info.SpeedKnot.format("%02.1f"));
+        var positionInfo = Position.getInfo();
+        var _current = positionInfo.position.toDegrees();         
+        System.println("lat: " + _current[0]+ "lon: "+ _current[1]); 
+        return false;  // allow InputDelegate function to be called 
+    }
+
     /*
     // Screen Tap
     function onTap(evt) {

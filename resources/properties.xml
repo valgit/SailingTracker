@@ -11,7 +11,7 @@
 
 <properties>
     <property id="appVersion" type="string">0.1.1</property>
-    <property id="defaultTimer" type="number">300</property>
+    <property id="defaultTimer" type="number">5</property>
     <property id="breadcrumb" type="boolean">true</property>
 </properties>
 <settings>

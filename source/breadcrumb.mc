@@ -33,11 +33,28 @@ class breadCrumb {
 
     //FIXME: for testing purpose
     // should be an JSON array ?
-    var _waypts = { 
-        "name" => "jaguar", 
-        "lat" => 51.05996 , 
-        "lon" => 2.36983
-        };
+    var poiList = [
+        { 
+            "name" => "jaguar", 
+            "lat" => 51.05996 , 
+            "lon" => 2.36983
+        },
+        {
+            "name" => "sirene", 
+            "lat" => 51.071944 , 
+            "lon" => 2.354444
+        },
+        {
+            "name" => "Sile1", 
+            "lat" => 51.066111 , 
+            "lon" => 2.400556
+        },
+        {
+            "name" => "E1", 
+            "lat" => 51.067778 , 
+            "lon" => 2.385000
+        }
+        ];
 
     function initialize() {    
     }
@@ -141,11 +158,7 @@ class breadCrumb {
         var pixelsXRef = 20;
         var pixelsYRef = 200;        
 
-          //TODO: testing wpts
-        var yref_j =  pixelsYRef - (_waypts["lat"] - _latMin) * scaleXY ;
-        var xref_j = (_waypts["lon"] - _lonMin) * scaleXY + pixelsXRef ;
-        System.println("wp : " + _waypts["name"] + ": "+ xref_j + ","+yref_j);
-
+  
         //FIXME: get correct value
 
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
@@ -176,9 +189,16 @@ class breadCrumb {
         System.println("pos dx and dy " + displayXOld + " ," + displayYOld);
         dc.fillCircle(displayXOld, displayYOld, 2);        
         //dc.fillCircle(20, 120, 2);
-        //FIXME: draw waypts
+  
+        //TODO: testing wpts
         dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);        
-        dc.fillCircle(xref_j, yref_j, 2);        
+        for(var i=0; i < poiList.size(); i++) {
+            var yref_j =  pixelsYRef - (poiList[i]["lat"] - _latMin) * scaleXY ;
+            var xref_j = (poiList[i]["lon"] - _lonMin) * scaleXY + pixelsXRef ;
+            System.println("wp : " + poiList[i]["name"] + ": "+ xref_j + ","+yref_j);
+            //FIXME: draw waypts            
+            dc.fillCircle(xref_j, yref_j, 2);        
+        }
 
         System.println("drawBreadcrumb - out");
     }

@@ -38,3 +38,13 @@ https://github.com/Rodemfr/MicronetToNMEA
 https://www.hisse-et-oh.com/sailing/decodage-du-protocole-micronet-et-envoi-a-qtvlm-et-opencpn
 
 https://forums.ybw.com/index.php?threads/raymarines-micronet.539500/
+
+default wpts
+Latitude	Longitude	Name
+51.071944	2.354444	sirene
+51.060005	2.370096	jaguar
+51.071389	2.361944	urtigua
+51.066111	2.400556	Sile1
+51.062222	2.390278	Sile0
+51.067778	2.385000	E1
+51.072500	2.371389	E2

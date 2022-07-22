@@ -66,6 +66,7 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         var recordingStatus = _info.IsRecording;
         drawRecord(dc,recordingStatus);
 
+        drawBattery(dc, Graphics.COLOR_WHITE, Graphics.COLOR_DK_RED, Graphics.COLOR_DK_GREEN);
         //TODO: switch on timer/or key
         mBoatmodel.drawBread(dc);
         
@@ -149,4 +150,49 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         dc.setColor(recordingStatus ? Graphics.COLOR_GREEN : Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		dc.fillCircle(_canvas_w * 0.7 ,(_canvas_h * 0.10),  5);
     }
+
+    // draw battery info ?
+    function drawBattery(dc, primaryColor, lowBatteryColor, fullBatteryColor) {
+        var batt_width_rect = 10;
+        var batt_height_rect = 20;
+        var batt_width_rect_small = 5;
+        var batt_height_rect_small = 2;
+        var batt_x_small, batt_y_small;
+        var background_color = Graphics.COLOR_BLUE;
+
+        //TODO: Graphics.COLOR_BLACK, Graphics.COLOR_DK_RED, Graphics.COLOR_DK_GREEN
+        var batt_x = _canvas_w * 0.25 ;
+        var batt_y = (_canvas_h * 0.10);
+        batt_x_small = batt_x + ((batt_width_rect - batt_width_rect_small) / 2);
+        batt_y_small = batt_y + batt_height_rect ;
+
+        var battery = System.getSystemStats().battery;
+        
+
+        if(battery < 15.0) {
+            primaryColor = lowBatteryColor;
+        }
+        else if(battery == 100.0) {
+            primaryColor = fullBatteryColor;
+        }
+
+		//primaryColor
+        dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+        dc.fillRectangle(batt_x, batt_y, batt_width_rect, (batt_height_rect * battery / 100));
+        if(battery == 100.0) {
+            dc.fillRectangle(batt_x_small, batt_y_small, batt_width_rect_small, batt_height_rect_small);
+        }
+        
+        dc.setColor(primaryColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawRectangle(batt_x, batt_y, batt_width_rect, batt_height_rect);
+        dc.setColor(background_color, Graphics.COLOR_TRANSPARENT);
+        dc.drawLine(batt_x_small-1, batt_y_small+1, batt_x_small-1, batt_y_small + batt_height_rect_small-1);
+
+        dc.setColor(primaryColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawRectangle(batt_x_small, batt_y_small, batt_width_rect_small, batt_height_rect_small);
+        dc.setColor(background_color, Graphics.COLOR_TRANSPARENT);
+        dc.drawLine(batt_x_small, batt_y_small+1, batt_x_small, batt_y_small + batt_height_rect_small-1);
+		
+    }
+
 }
