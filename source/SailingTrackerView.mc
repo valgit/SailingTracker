@@ -102,10 +102,10 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         System.println("HDG: avg : "+ info.AvgBearingDegree + " vs HDG: " + info.BearingDegree);
         var lift = info.BearingDegree-info.AvgBearingDegree;
         if ((lift>0) && (lift>10)) {
-            System.println("rotation ?" + lift);
+            System.println("rotation ? " + lift);
         }
         if ((lift<0) && (-lift>10)) {
-            System.println("rotation 2?" + lift);
+            System.println("rotation 2? " + lift);
         }        
 
         //  show VMG ?
