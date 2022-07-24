@@ -29,7 +29,7 @@ class breadCrumb {
     // this means only the last 1000m are inside the display 
     // the other points are outside and therefore not visible
     //const totalTraceLen = 1000.0;
-    var totalTraceDeg = 10.0 / scaleDistDeg;  // deg/1000m
+    //var totalTraceDeg = 10.0 / scaleDistDeg;  // deg/1000m
 
     //FIXME: for testing purpose
     // should be an JSON array ?
@@ -102,8 +102,7 @@ class breadCrumb {
     }
 
     function drawBreadcrumb(dc) {
-        System.println("drawBreadcrumb - in, len : " + totalTraceDeg);
-        
+        System.println("drawBreadcrumb - in"); // , len : " + totalTraceDeg);
 
         var maxpt = _lastpt -1;
         if (maxpt < 3) {
@@ -112,11 +111,11 @@ class breadCrumb {
 
         // overide max with totalTraceDeg if needed
         // scale the geographical size to the display size
-        System.println(_lonMax + " " + _lonMin);
-        System.println(_latMax + " " + _latMin);
+        //System.println(_lonMax + " " + _lonMin);
+        //System.println(_latMax + " " + _latMin);
         
         //TODO: reset bornes
-        /*
+        //FIXME: check if needed ?
         _lonMax = -180.0;
         _lonMin = 180.0;
         _latMax = -90.0;
@@ -128,6 +127,7 @@ class breadCrumb {
             _latMax = (_latMax > _lat[i]) ? _latMax : _lat[i];
             _latMin = (_latMin < _lat[i]) ? _latMin : _lat[i];
         }
+        /*
         System.println("lonmax = " + _lonMax);
         System.println("lonmin = " + _lonMin);
         System.println("latmax = " + _latMax);
@@ -136,6 +136,7 @@ class breadCrumb {
 
         //TODO: define min screen size ?
         //FIXME: handle round / square
+        //use R*cos(45)
         var scaleX = (dc.getWidth() - 40 )  / (_lonMax - _lonMin);
         var scaleY = (dc.getHeight() - 40)  / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
