@@ -105,7 +105,7 @@ class breadCrumb {
         System.println("drawBreadcrumb - in"); // , len : " + totalTraceDeg);
 
         var maxpt = _lastpt -1;
-        if (maxpt < 3) {
+        if (maxpt < 2) {
             return;
         }
 
@@ -133,21 +133,13 @@ class breadCrumb {
         System.println("latmax = " + _latMax);
         System.println("latmin = " + _latMin);
         */
-
-        //TODO: define min screen size ?
-        //FIXME: handle round / square
-        //use R*cos(45)
-        var scaleX = (dc.getWidth() - 40 )  / (_lonMax - _lonMin);
-        var scaleY = (dc.getHeight() - 40)  / (_latMax - _latMin);
+        
+        //use R*cos(45) 0.707
+        var scaleX = (dc.getWidth() * 0.707 - 20 )  / (_lonMax - _lonMin);
+        var scaleY = (dc.getHeight() * 0707 - 20)  / (_latMax - _latMin);
         var scaleXY = (scaleX < scaleY) ? scaleX : scaleY;
         
-        System.println("num point : " + _lastpt + " scale: " + scaleXY);        
-        if ((scaleXY>20000) && (scaleXY<30000)) {
-            scaleXY = 30000;
-        }
-        if ((scaleXY>30000) && (scaleXY<50000)) {
-            scaleXY = 50000;
-        }
+        System.println("num point : " + _lastpt + " scale: " + scaleXY);           
 
         var displayXOld = 0.0;
         var displayYOld = 0.0;
@@ -159,10 +151,7 @@ class breadCrumb {
       
         //TODO: adjust by watches to center, screen size ?
         var pixelsXRef = 20;
-        var pixelsYRef = 200;        
-
-  
-        //FIXME: get correct value
+        var pixelsYRef = dc.getWidth() * 0.707;                
 
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         for(var i=0; i < maxpt; i++) {

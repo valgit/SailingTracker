@@ -96,29 +96,20 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         dc.drawText(_canvas_w * 0.90 ,(_canvas_h * 0.57), Graphics.FONT_LARGE, "kn", Graphics.TEXT_JUSTIFY_VCENTER);
 
         var headingStr = formatHeading(info.BearingDegree);
-        //System.println("cur speed " + knots +" kts - heading : "+headingStr );
-        
-        // TODO : check for deviation
-        //angle = 180 - abs(abs(a1 - a2) - 180);
-        //theta = ((destAngle - startAngle) + 180) % 360 - 180;
-        //PITAU = 360 + 180 # for readablility
-        //signed_diff = ( want - have + PITAU ) % 360 - 180
+        //System.println("cur speed " + knots +" kts - heading : "+headingStr );     
 
-        System.println("HDG: avg : "+ info.AvgBearingDegree + " vs HDG: " + info.BearingDegree);
-        //var lift = info.BearingDegree-info.AvgBearingDegree;
+        //System.println("HDG: avg : "+ info.AvgBearingDegree + " vs HDG: " + info.BearingDegree);        
+        // lift or head ?
         var lift = ((info.BearingDegree - info.AvgBearingDegree) + +360 + 180) % 360 - 180;
-        System.println("delta : "+  lift);
-        if ((lift>0) && (lift>10)) {
-            System.println("rotation ? " + lift);
+        drawLift(dc,lift);
+
+        //TODO: tack of gybe info?
+        if (info.SpeedKnot < 1.0) {
+            System.println(">>>>>Gybe ? " + lift + " k: " + knots);
         }
-        if ((lift<0) && (-lift>10)) {
-            System.println("rotation 2? " + lift);
-        }        
-        if ((lift>0) &&(lift > 90)) {
-            System.println("Gybe ? " + lift);
-        }
-        if ((lift<0) && (-lift > 90)) {
-            System.println("Tack ? " + lift);
+
+        if (lift < -90) {
+            System.println(">>>>>Tack ? " + lift + " k: " + knots);
         }
 
         //  show VMG ?
@@ -179,8 +170,7 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
         batt_x_small = batt_x + ((batt_width_rect - batt_width_rect_small) / 2);
         batt_y_small = batt_y + batt_height_rect ;
 
-        var battery = System.getSystemStats().battery;
-        
+        var battery = System.getSystemStats().battery;        
 
         if(battery < 15.0) {
             primaryColor = lowBatteryColor;
@@ -208,4 +198,27 @@ class SailingTrackerView extends WatchUi.View /* CompassView */ {
 		
     }
 
+    // draw a tactical info about header or lift
+    function drawLift(dc,lift) {
+        //System.println("delta : "+  lift);
+        
+        //dc.drawLine(_canvas_w*0.5, _canvas_h *0.18, _canvas_w *0.5 + lift , _canvas_h*0.18);  
+        //TODO: get correct length        
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.fillRectangle(_canvas_w*0.5+1, _canvas_h *0.2,80,4);
+
+        //dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+        dc.fillRectangle(_canvas_w*0.5 - 81, _canvas_h *0.2, 80, 4);
+
+        if (lift >0) {                        
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            //FIXME: use a percentage ?
+            dc.fillRectangle(_canvas_w*0.5+1, _canvas_h *0.2,2*lift,4);
+        } else {        
+            lift = -lift;
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            //FIXME: use a percentage ?
+            dc.fillRectangle(_canvas_w*0.5 - 2* lift-1, _canvas_h *0.2,2*lift,4);
+        }
+    }
 }

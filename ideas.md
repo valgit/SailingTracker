@@ -291,3 +291,22 @@ Lap:
    #compile :
    C:\Program Files\RedHat\java-11-openjdk-11.0.10-1\bin\java.exe -Xms1g -Dfile.encoding=UTF-8 -Dapple.awt.UIElement=true -jar c:\Users\fr20033\AppData\Roaming\Garmin\ConnectIQ\Sdks\connectiq-sdk-win-4.1.4-2022-06-07-f86da2dee\bin\monkeybrains.jar -o c:\perso\workspace\garmin\SailingTracker\bin\SailingTracker.prg -f c:\perso\workspace\garmin\SailingTracker\monkey.jungle -y "C:\perso\workspace\garmin\developer_key.der" -w -d vivoactive3
    
+
+should have been a Gybe !
+   12
+drawBreadcrumb - in
+>>>>>rotation droite? -11
+drawBreadcrumb - in
+>>>>>rotation droite? -16
+drawBreadcrumb - in
+>>>>>rotation droite? -22
+drawBreadcrumb - in
+>>>>>rotation droite? -42
+drawBreadcrumb - in
+>>>>>rotation droite? -54
+drawBreadcrumb - in
+>>>>>rotation droite? -63
+drawBreadcrumb - in
+>>>>>rotation droite? -52
+drawBreadcrumb - in
+
