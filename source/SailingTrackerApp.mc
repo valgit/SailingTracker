@@ -73,6 +73,7 @@ class SailingTrackerApp extends Application.AppBase {
     function onSettingsChanged() as Void {
         System.println("onSettingsChanged");
         /*
+        //TODO: ? Decimal Degrees = degrees + (minutes/60) + (seconds/3600)
         var color = App.getApp().getProperty("PROP_COLOR");
         handleYourColorChangesHere(color);
         Ui.requestUpdate(); 
