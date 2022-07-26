@@ -7,12 +7,19 @@
     <string id="NumberError">Number Error</string>
     <string id="Breadcrumb">GPS trail</string>
     <string id="gpstrail">display GPS trail</string>
+
+    <string id="waypoint">waypoint</string>
+    <string id="lon">longitude</string>
+    <string id="lat">latitude</string>
 </strings>
 
 <properties>
     <property id="appVersion" type="string">0.1.1</property>
     <property id="defaultTimer" type="number">5</property>
     <property id="breadcrumb" type="boolean">true</property>
+    
+    <property id="waypoint" type="array"><!-- waypoints location --></property>
+    
 </properties>
 <settings>
 
@@ -26,6 +33,18 @@
 
     <setting propertyKey="@Properties.breadcrumb" title="@Strings.Breadcrumb" prompt="@Strings.gpstrail">
         <settingConfig type="boolean"  />
+    </setting>
+
+    <!-- waypoints location -->
+    <setting propertyKey="@Properties.waypoint" title="@Strings.waypoint"  maxLength="4">        
+
+        <setting title="@Strings.lat" type="string">
+            <settingConfig id="lat" type="alphaNumeric"/>
+        </setting>
+        <setting title="@Strings.lon" type="string">
+            <settingConfig id="lon" type="alphaNumeric"/>
+        </setting>
+        
     </setting>
 
 </settings>

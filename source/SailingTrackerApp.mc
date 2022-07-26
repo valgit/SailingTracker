@@ -1,6 +1,7 @@
-import Toybox.Application;
-import Toybox.Lang;
-import Toybox.WatchUi;
+using Toybox.Application;
+using Toybox.Lang;
+using Toybox.WatchUi;
+using Toybox.System;
 using Toybox.Position as Position;
 using Toybox.Timer;
 
@@ -69,6 +70,14 @@ class SailingTrackerApp extends Application.AppBase {
         // may call other things here ?
     }
     
+    function onSettingsChanged() as Void {
+        System.println("onSettingsChanged");
+        /*
+        var color = App.getApp().getProperty("PROP_COLOR");
+        handleYourColorChangesHere(color);
+        Ui.requestUpdate(); 
+        */
+    }
 }
 
 function getApp() as SailingTrackerApp {
